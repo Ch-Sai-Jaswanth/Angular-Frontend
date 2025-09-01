@@ -1,0 +1,34 @@
+<div class="form-container">
+  <h2>Add Dealer</h2>
+  <form [formGroup]="dealerForm" (ngSubmit)="onSubmit()">
+    
+    <label for="dealerId">Dealer Id</label>
+    <input id="dealerId" formControlName="dealerId" type="number" />
+
+    <label for="dealerName">Dealer Name</label>
+    <input id="dealerName" formControlName="dealerName" type="text" />
+
+    <label for="address">Address</label>
+    <input id="address" formControlName="address" type="text" />
+
+    <label for="city">City</label>
+    <input id="city" formControlName="city" type="text" />
+
+    <label for="state">State</label>
+    <input id="state" formControlName="state" type="text" />
+
+    <label for="zipCode">Zip Code</label>
+    <input id="zipCode" formControlName="zipCode" type="number" />
+
+    <label for="storageCapacity">Storage Capacity</label>
+    <input id="storageCapacity" formControlName="storageCapacity" type="number" />
+
+    <label for="inventory">Inventory</label>
+    <input id="inventory" formControlName="inventory" type="number" />
+
+    <button type="submit" [disabled]="dealerForm.invalid" id="submitBtn">Submit</button><br><br>
+    <button class="btn btn-danger mb-3" (click)="goBack()">
+      ← Go Back
+    </button>
+  </form>
+</div>

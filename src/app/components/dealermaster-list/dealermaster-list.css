@@ -1,0 +1,62 @@
+table {
+  font-size: 0.95rem;
+}
+
+th, td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.bike-list-container {
+  padding: 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  text-align: left;
+  color: black;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+button {
+  margin-right: 0.5rem;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+a {
+  color: #0078d4;
+  text-decoration: none;
+}
+table {
+  font-size: 0.95rem;
+}
+
+th, td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}

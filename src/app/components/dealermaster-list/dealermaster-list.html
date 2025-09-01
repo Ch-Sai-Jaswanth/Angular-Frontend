@@ -1,0 +1,43 @@
+<div class="container mt-4">
+  <button class="btn btn-secondary mb-3" (click)="goBack()">
+    ← Go Back
+  </button>
+  <h2 class="text-center mb-4">DealerMaster Records</h2>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <table *ngIf="!loading && dealerMasters.length" class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>DealerMaster Id</th>
+        <th>Dealer Id</th>
+        <th>Bike Id</th>
+        <th>Bikes Delivered</th>
+        <th>Delivery Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of dealerMasters">
+        <td>{{ record.dealerMasterId }}</td>
+        <td>{{ record.dealerId }}</td>
+        <td>{{ record.bikeId }}</td>
+        <td>{{ record.bikesDelivered }}</td>
+        <td>{{ record.deliveryDate | date: 'mediumDate' }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="deleteRecord(record.dealerMasterId)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && dealerMasters.length === 0" class="text-center text-muted">
+    No delivery records found.
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="container mt-4">
+  <button class="btn btn-secondary mb-3" (click)="goBack()">
+    ← Go Back
+  </button>
+  <h2 class="text-center mb-4">List of Bikes</h2>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <table *ngIf="!loading && bikes.length" class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Bike Id</th>
+        <th>Model Name</th>
+        <th>Manufacturer</th>
+        <th>Model Year</th>
+        <th>Engine CC</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bike of bikes">
+        <td>{{ bike.bikeId }}</td>
+        <td>{{ bike.modelName }}</td>
+        <td>{{ bike.manufacturer || 'N/A' }}</td>
+        <td>{{ bike.modelYear || 'N/A' }}</td>
+        <td>{{ bike.engineCc || 'N/A' }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="deleteBike(bike.bikeId)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- No records message -->
+  <div *ngIf="!loading && bikes.length === 0" class="text-center text-muted">
+    No bike records found.
+  </div>
+</div>
+
+<!-- <h2>List of Bikes</h2>
+<table class="table table-bordered table-hover"> *ngIf="!loading && bikes.length"
+  <thead class="table-dark">
+    <tr>
+      <th>Bike Id</th>
+      <th>Model Name</th>
+      <th>Manufacturer</th>
+      <th>Model Year</th>
+      <th>Engine CC</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let bike of bikes">
+      <td>{{ bike.bikeId }}</td>
+      <td>{{ bike.modelName }}</td>
+      <td>{{ bike.manufacturer || 'N/A' }}</td>
+      <td>{{ bike.modelYear || 'N/A' }}</td>
+      <td>{{ bike.engineCc || 'N/A' }}</td>
+    </tr>
+  </tbody>
+</table> -->

@@ -1,0 +1,25 @@
+<div class="form-container">
+  <h2>Record Delivery</h2>
+  <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()">
+
+    <label>DealerMaster ID</label>
+    <input type="number" formControlName="dealerMasterId" />
+
+    <label>Dealer ID</label>
+    <input type="number" formControlName="dealerId" />
+
+    <label>Bike ID</label>
+    <input type="number" formControlName="bikeId" />
+
+    <label>Bikes Delivered</label>
+    <input type="number" formControlName="bikesDelivered" />
+
+    <label>Delivery Date</label>
+    <input type="date" formControlName="deliveryDate" />
+
+    <button type="submit" id="submitBtn">Submit</button><br><br>
+    <button class="btn btn-danger mb-3" (click)="goBack()">
+      ← Go Back
+    </button>
+  </form>
+</div>

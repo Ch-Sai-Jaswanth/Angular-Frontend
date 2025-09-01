@@ -1,0 +1,12 @@
+.form-container {
+  max-width: 400px;
+  margin: auto;
+}
+input {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.error {
+  color: red;
+}

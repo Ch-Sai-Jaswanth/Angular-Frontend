@@ -1,0 +1,62 @@
+src/
+└── app/
+    ├── services/
+    │   └── auth/
+    │       ├── auth.service.ts
+    │       └── auth.interceptor.ts
+    ├── models/
+    │   ├── login.model.ts
+    │   └── register.model.ts
+    ├── guards/
+    │   └── auth.guard.ts
+    ├── components/
+    │   ├── login/
+    │   │   ├── login.component.ts
+    │   │   ├── login.component.html
+    │   │   └── login.component.css
+    │   ├── registration/
+    │   │   ├── registration.component.ts
+    │   │   ├── registration.component.html
+    │   │   └── registration.component.css
+    └── app.module.ts
+
+
+/src/app/dealers/
+  ├── dealer-list/
+  │     ├── dealer-list.component.ts
+  │     └── dealer-list.component.html
+  ├── dealer-form/
+  │     ├── dealer-form.component.ts
+  │     └── dealer-form.component.html
+  ├── dealer.service.ts
+  └── dealer.model.ts
+
+src/
+└── app/
+    ├── models/
+    │   ├── bike-store.model.ts
+    │   ├── dealer.model.ts
+    │   └── dealer-master.model.ts
+    ├── services/
+    │   ├── bike-store.service.ts
+    │   ├── dealer.service.ts
+    │   └── dealer-master.service.ts
+    ├── components/
+    │   ├── bike-store/
+    │   │   ├── bike-list.component.ts
+    │   │   ├── bike-form.component.ts
+    │   ├── dealer/
+    │   │   ├── dealer-list.component.ts
+    │   │   ├── dealer-form.component.ts
+    │   ├── dealer-master/
+    │   │   ├── delivery-list.component.ts
+    │   │   ├── delivery-form.component.ts
+    ├── auth/
+    │   ├── login.component.ts
+    │   ├── register.component.ts
+    │   └── auth.service.ts
+    ├── guards/
+    │   └── auth.guard.ts
+    ├── interceptors/
+    │   └── jwt.interceptor.ts
+    └── app-routing.module.ts

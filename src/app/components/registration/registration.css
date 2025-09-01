@@ -1,0 +1,15 @@
+.form-container {
+  max-width: 400px;
+  margin: auto;
+}
+input, select {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.success {
+  color: green;
+}
+.error {
+  color: red;
+}

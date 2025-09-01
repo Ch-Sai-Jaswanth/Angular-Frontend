@@ -1,0 +1,83 @@
+<div class="container mt-4">
+  <button class="btn btn-secondary mb-3" (click)="goBack()">
+    ← Go Back
+  </button>
+  <h2 class="text-center mb-4">Dealer List</h2>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <table *ngIf="!loading && dealers.length" class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Dealer Id</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
+        <th>Capacity</th>
+        <th>Inventory</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dealer of dealers">
+        <td>{{ dealer.dealerId }}</td>
+        <td>{{ dealer.dealerName }}</td>
+        <td>{{ dealer.city }}</td>
+        <td>{{ dealer.state }}</td>
+        <td>{{ dealer.zipCode }}</td>
+        <td>{{ dealer.storageCapacity }}</td>
+        <td>{{ dealer.inventory }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="deleteDealer(dealer.dealerId)">
+            Delete
+          </button>
+          <a class="btn btn-primary btn-sm" [routerLink]="['/dealers/edit', dealer.dealerId]">
+            Edit
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && dealers.length === 0" class="text-center text-muted">
+    No dealers found.
+  </div>
+</div>
+
+<!-- <div class="dealer-list-container">
+  <h2>Dealer List</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Dealer Id</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
+        <th>Capacity</th>
+        <th>Inventory</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dealer of dealers">
+        <td>{{ dealer.dealerId }}</td>
+        <td>{{ dealer.dealerName }}</td>
+        <td>{{ dealer.city }}</td>
+        <td>{{ dealer.state }}</td>
+        <td>{{ dealer.zipCode }}</td>
+        <td>{{ dealer.storageCapacity }}</td>
+        <td>{{ dealer.inventory }}</td>
+        <td>
+          <button (click)="deleteDealer(dealer.dealerId)">Delete</button>
+          <a [routerLink]="['/api/Dealer', dealer.dealerId]">Edit</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->

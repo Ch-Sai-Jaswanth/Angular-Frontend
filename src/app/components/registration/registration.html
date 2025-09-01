@@ -1,0 +1,16 @@
+<div class="form-container">
+  <h2>Register</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <input formControlName="username" placeholder="Username" />
+    <input formControlName="email" placeholder="Email" type="email" />
+    <input formControlName="password" placeholder="Password" type="password" />
+    <select formControlName="role">
+      <option value="Admin">Admin</option>
+      <option value="Dealer">Dealer</option>
+      <option value="User">User</option>
+    </select>
+    <button type="submit">Register</button>
+  </form>
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+</div>
