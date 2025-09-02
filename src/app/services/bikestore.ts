@@ -26,9 +26,13 @@ export class BikeStoreService {
     return this.http.put<void>(`${this.apiUrl}/${id}`, bike);
   }
 
-  deleteBike(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+  // deleteBike(id: number): Observable<void> {
+  //   return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  // }
+  deleteBike(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
+}
+
 }
 
 // export class BikeService {
