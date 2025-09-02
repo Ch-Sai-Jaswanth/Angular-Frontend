@@ -44,6 +44,7 @@ export class BikeList implements OnInit {
     if (confirm('Are you sure you want to delete this bike?')) {
       this.bikeService.deleteBike(id).subscribe({
         next: () => {
+          alert('Bike deleted successfully!');
           this.fetchBikes();
         },
         error: (err) => {
