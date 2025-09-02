@@ -16,6 +16,7 @@ export class BikeForm implements OnInit {
 
   ngOnInit(): void {
     this.bikeForm = this.fb.group({
+      bikeId: [null, Validators.required],
       modelName: ['', Validators.required],
       modelYear: [null],
       engineCc: [null],
