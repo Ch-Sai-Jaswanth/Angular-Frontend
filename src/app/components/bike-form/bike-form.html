@@ -1,6 +1,9 @@
 <div class="form-container">
   <h2>Add New Bike</h2>
   <form [formGroup]="bikeForm" (ngSubmit)="onSubmit()">
+    <label>Bike ID</label>
+    <input type="number" formControlName="bikeId" />
+
     <label>Model Name</label>
     <input formControlName="modelName" />
 
@@ -13,7 +16,7 @@
     <label>Manufacturer</label>
     <input formControlName="manufacturer" />
 
-    <button type="submit" id="submitBtn">Submit</button><br><br>
+    <button type="submit" id="submitBtn" (click)="onSubmit()">Submit</button><br><br>
     <button class="btn btn-danger mb-3" (click)="goBack()">
       ← Go Back
     </button>
