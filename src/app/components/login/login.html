@@ -1,4 +1,4 @@
-<div class="form-container">
+<!-- <div class="form-container">
   <h2>Login</h2>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <input formControlName="username" placeholder="Username" />
@@ -6,4 +6,39 @@
     <button type="submit">Login</button>
   </form>
   <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+</div> -->
+
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-lg p-4 rounded-4" style="max-width: 400px; width: 100%;">
+    <h2 class="text-center mb-4 text-primary">Login</h2>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input
+          id="username"
+          formControlName="username"
+          class="form-control"
+          placeholder="Enter your username"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input
+          id="password"
+          formControlName="password"
+          type="password"
+          class="form-control"
+          placeholder="Enter your password"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+
+    <p class="text-danger mt-3 text-center" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+  </div>
 </div>
