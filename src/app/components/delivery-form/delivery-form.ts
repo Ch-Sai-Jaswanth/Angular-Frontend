@@ -27,12 +27,20 @@ export class DeliveryForm implements OnInit {
 
   onSubmit(): void {
     if (this.deliveryForm.valid) {
+      const role = localStorage.getItem('role');
+      if (role === 'Admin') {
       this.deliveryService.addDealerMaster(this.deliveryForm.value).subscribe(() => {
         alert('Delivery record added!');
         this.deliveryForm.reset();
         this.router.navigate(['/deliveries']);
       });
     }
+    else
+    {
+      alert("You are not allowed to perform this action");
+      this.deliveryForm.reset();
+    }
+  }
   }
   goBack(): void {
     this.location.back();
