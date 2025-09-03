@@ -9,6 +9,9 @@ import { Login } from './components/login/login';
 import { Registration } from './components/registration/registration';
 import { DeliveryForm } from './components/delivery-form/delivery-form';
 import { DealerMasterList } from './components/dealermaster-list/dealermaster-list';
+import { EditDealer } from './components/edit-dealer/edit-dealer';
+import { EditBike } from './components/edit-bike/edit-bike';
+import { EditDealermaster } from './components/edit-dealermaster/edit-dealermaster';
 
 export const routes: Routes = [
     {
@@ -28,7 +31,7 @@ export const routes: Routes = [
     },
     {
         path: 'bikes/edit/:id',
-        component: BikeForm,
+        component: EditBike,
         canActivate: [authGuard]
     },
     {
@@ -43,7 +46,7 @@ export const routes: Routes = [
     },
     {
         path: 'dealers/edit/:id',
-        component: DealerForm,
+        component: EditDealer,
         canActivate: [authGuard]
     },
     {
@@ -58,7 +61,7 @@ export const routes: Routes = [
     },
     {
         path: 'deliveries/edit/:id',
-        component: DeliveryForm,
+        component: EditDealermaster,
         canActivate: [authGuard]
     },
     { path: 'login', component: Login },
