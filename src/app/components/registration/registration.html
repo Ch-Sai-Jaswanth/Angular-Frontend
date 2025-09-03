@@ -63,11 +63,19 @@
       <button type="submit" class="btn btn-success w-100">Register</button>
     </form>
 
-    <p class="text-success mt-3 text-center" *ngIf="successMessage">
+    <!-- <p class="text-success mt-3 text-center" *ngIf="successMessage">
       {{ successMessage }}
-    </p>
-    <p class="text-danger mt-2 text-center" *ngIf="errorMessage">
+    </p> -->
+    <!-- <p class="text-danger mt-2 text-center" *ngIf="errorMessage">
       {{ errorMessage }}
-    </p>
+    </p> -->
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ successMessage }}
+      <button type="button" class="btn-close" (click)="successMessage = ''" aria-label="Close"></button>
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ errorMessage }}
+      <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
+    </div>
   </div>
 </div>
