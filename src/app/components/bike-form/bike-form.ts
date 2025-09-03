@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BikeStoreService } from '../../services/bikestore';
 import { CommonModule, Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bike-form',
@@ -12,7 +13,7 @@ import { CommonModule, Location } from '@angular/common';
 export class BikeForm implements OnInit {
   bikeForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private bikeService: BikeStoreService, private location: Location) {}
+  constructor(private fb: FormBuilder, private bikeService: BikeStoreService, private location: Location, private router: Router) {}
 
   ngOnInit(): void {
     this.bikeForm = this.fb.group({
@@ -31,6 +32,7 @@ export class BikeForm implements OnInit {
         this.bikeService.addBike(this.bikeForm.value).subscribe(() => {
         alert('Bike added successfully!');
         this.bikeForm.reset();
+        this.router.navigate(['/bikes']);
       });
       }
     }

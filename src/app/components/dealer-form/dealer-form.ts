@@ -2,6 +2,7 @@ import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DealerService } from '../../services/dealer';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dealer-form',
@@ -12,7 +13,7 @@ import { DealerService } from '../../services/dealer';
 export class DealerForm implements OnInit {
   dealerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private dealerService: DealerService, private location: Location) {}
+  constructor(private fb: FormBuilder, private dealerService: DealerService, private location: Location, private router: Router) {}
 
   ngOnInit(): void {
     this.dealerForm = this.fb.group({
@@ -32,6 +33,7 @@ export class DealerForm implements OnInit {
       this.dealerService.addDealer(this.dealerForm.value).subscribe(() => {
         alert('Dealer added successfully!');
         this.dealerForm.reset();
+        this.router.navigate(['/dealers']);
       });
     }
   }

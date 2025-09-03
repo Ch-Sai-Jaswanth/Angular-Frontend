@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DealerMasterService } from '../../services/dealermaster-service';
 import { CommonModule, Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-delivery-form',
@@ -12,7 +13,7 @@ import { CommonModule, Location } from '@angular/common';
 export class DeliveryForm implements OnInit {
   deliveryForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private deliveryService: DealerMasterService, private location:Location) {}
+  constructor(private fb: FormBuilder, private deliveryService: DealerMasterService, private location:Location, private router: Router) {}
 
   ngOnInit(): void {
     this.deliveryForm = this.fb.group({
@@ -29,6 +30,7 @@ export class DeliveryForm implements OnInit {
       this.deliveryService.addDealerMaster(this.deliveryForm.value).subscribe(() => {
         alert('Delivery record added!');
         this.deliveryForm.reset();
+        this.router.navigate(['/deliveries']);
       });
     }
   }
