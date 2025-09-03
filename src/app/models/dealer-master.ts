@@ -3,5 +3,5 @@ export interface DealerMaster {
   dealerId: number;
   bikeId: number;
   bikesDelivered?: number;
-  deliveryDate?: Date;
+  deliveryDate?: string;
 }
