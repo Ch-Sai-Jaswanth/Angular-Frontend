@@ -1,0 +1,87 @@
+<div class="container mt-4">
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2">Loading...</p>
+  </div>
+
+  <form *ngIf="!isLoading" [formGroup]="dealerMasterForm" (ngSubmit)="onSubmit()" class="card shadow-lg p-4 rounded-3">
+    <h3 class="text-center text-primary mb-4">Dealer Master Form</h3>
+
+    <div class="mb-3">
+      <label for="dealermasterId" class="form-label fw-bold">DealerMaster ID</label>
+      <input type="text" id="dealermasterId" class="form-control" [value]="dealerMasterId" readonly />
+    </div>
+
+    <div class="mb-3">
+      <label for="dealerId" class="form-label fw-bold">Dealer</label>
+      <select formControlName="dealerId" class="form-select" required>
+        <option [value]="null">-- Select Dealer --</option>
+        <option *ngFor="let dealer of dealers" [value]="dealer.dealerId">
+          {{ dealer.dealerName }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="bikeId" class="form-label fw-bold">Bike</label>
+      <select formControlName="bikeId" class="form-select" required>
+        <option [value]="null">-- Select Bike --</option>
+        <option *ngFor="let bike of bikes" [value]="bike.bikeId">
+          {{ bike.modelName }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="bikesDelivered" class="form-label fw-bold">Bikes Delivered</label>
+      <input type="number" formControlName="bikesDelivered" class="form-control" placeholder="Enter number of bikes" />
+    </div>
+
+    <div class="mb-3">
+      <label for="deliveryDate" class="form-label fw-bold">Delivery Date</label>
+      <input type="date" formControlName="deliveryDate" class="form-control" />
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <button type="submit" class="btn btn-success px-4">Save</button>
+      <button type="button" class="btn btn-danger px-4" (click)="goBack()">Cancel</button>
+    </div>
+  </form>
+</div>
+
+
+<!-- <p>edit-dealermaster works!</p>
+<div class="container mt-4">
+  <h3>Edit Dealer Master</h3>
+
+  <form [formGroup]="dealerMasterForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="dealerId">Dealer ID</label>
+        <input type="number" id="dealerId" class="form-control" formControlName="dealerId" />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="bikeId">Bike ID</label>
+        <input type="number" id="bikeId" class="form-control" formControlName="bikeId" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="bikesDelivered">Bikes Delivered</label>
+        <input type="number" id="bikesDelivered" class="form-control" formControlName="bikesDelivered" />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="deliveryDate">Delivery Date</label>
+        <input type="date" id="deliveryDate" class="form-control" formControlName="deliveryDate" />
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+
+  <div *ngIf="isLoading" class="text-center mt-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p>Loading DealerMaster data...</p>
+  </div>
+</div> -->

@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <button class="btn btn-secondary mb-3" (click)="goBack()">
+  <button class="btn btn-danger mb-3" (click)="goBack()">
     ← Go Back
   </button>
   <h2 class="text-center mb-4">DealerMaster Records</h2>
@@ -29,9 +29,10 @@
         <td>{{ record.bikesDelivered }}</td>
         <td>{{ record.deliveryDate | date: 'mediumDate' }}</td>
         <td>
-          <button class="btn btn-danger btn-sm" (click)="deleteRecord(record.dealerMasterId)">
+          <button id="deleteBtn" class="btn btn-danger btn-sm" (click)="deleteRecord(record.dealerMasterId)">
             Delete
           </button>
+          <button class="btn btn-primary btn-sm" [routerLink]="['/deliveries/edit', record.dealerMasterId]">Edit</button>
         </td>
       </tr>
     </tbody>

@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <button class="btn btn-secondary mb-3" (click)="goBack()">
+  <button class="btn btn-danger mb-3" (click)="goBack()">
     ← Go Back
   </button>
   <h2 class="text-center mb-4">List of Bikes</h2>
@@ -29,9 +29,10 @@
         <td>{{ bike.modelYear || 'N/A' }}</td>
         <td>{{ bike.engineCc || 'N/A' }}</td>
         <td>
-          <button class="btn btn-danger btn-sm" (click)="deleteBike(bike.bikeId)">
+          <button id="deleteBtn" class="btn btn-danger btn-sm" (click)="deleteBike(bike.bikeId)">
             Delete
           </button>
+          <button class="btn btn-primary btn-sm" [routerLink]="['/bikes/edit', bike.bikeId]">Edit</button>
         </td>
       </tr>
     </tbody>

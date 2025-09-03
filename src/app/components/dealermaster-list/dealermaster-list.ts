@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { DealerMasterService } from '../../services/dealermaster-service';
 import { DealerMaster } from '../../models/dealer-master';
 import { CommonModule, DatePipe, Location } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dealermaster-list',
-  imports: [DatePipe, CommonModule],
+  imports: [DatePipe, CommonModule, RouterLink],
   templateUrl: './dealermaster-list.html',
   styleUrls: ['./dealermaster-list.css']
 })

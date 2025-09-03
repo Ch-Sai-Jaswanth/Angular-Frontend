@@ -33,7 +33,7 @@ th {
   background-color: #f0f0f0;
 }
 
-button {
+button#deleteBtn {
   margin-right: 0.5rem;
   background-color: #d9534f;
   color: white;
