@@ -26,10 +26,13 @@ export class BikeForm implements OnInit {
 
   onSubmit(): void {
     if (this.bikeForm.valid) {
-      this.bikeService.addBike(this.bikeForm.value).subscribe(() => {
+      const role = localStorage.getItem('role');
+      if (role === 'Admin' || role === 'Producer') {
+        this.bikeService.addBike(this.bikeForm.value).subscribe(() => {
         alert('Bike added successfully!');
         this.bikeForm.reset();
       });
+      }
     }
   }
   goBack(): void {
