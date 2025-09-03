@@ -7,12 +7,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DealerMasterService {
-  private apiUrl = 'https://localhost:7188/api/DM'; // Adjust if needed
+  private apiUrl = 'https://localhost:7188/api/DM';
 
   constructor(private http: HttpClient) {}
 
   getAllDealerMasters(): Observable<DealerMaster[]> {
     return this.http.get<DealerMaster[]>(this.apiUrl);
+  }
+
+  getDealerMasterById(id: number): Observable<DealerMaster> {
+    return this.http.get<DealerMaster>(`${this.apiUrl}/${id}`);
   }
 
   addDealerMaster(payload: DealerMaster): Observable<DealerMaster> {
