@@ -18,9 +18,16 @@ export class BikeStoreService {
     return this.http.get<BikeStore>(`${this.apiUrl}/${id}`);
   }
 
+  // addBike(bike: BikeStore): Observable<BikeStore> {
+  //   return this.http.post<BikeStore>(this.apiUrl, bike);
+  // }
   addBike(bike: BikeStore): Observable<BikeStore> {
-    return this.http.post<BikeStore>(this.apiUrl, bike);
-  }
+  const token = localStorage.getItem('token');
+  const headers = {
+    'Authorization': `Bearer ${token}`
+  };
+  return this.http.post<BikeStore>(this.apiUrl, bike, { headers });
+}
 
   updateBike(id: number, bike: BikeStore): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}`, bike);
