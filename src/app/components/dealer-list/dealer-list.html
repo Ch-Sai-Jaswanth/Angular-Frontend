@@ -10,21 +10,65 @@
 
   <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
 
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search dealers..."
+      [(ngModel)]="searchTerm"
+    />
+  </div>
+
   <table *ngIf="!loading && dealers.length" class="table table-bordered table-hover">
     <thead class="table-dark">
-      <tr>
-        <th>Dealer Id</th>
-        <th>Name</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Zip</th>
-        <th>Capacity</th>
-        <th>Inventory</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+  <tr>
+    <th (click)="sort('dealerId')">
+      Dealer Id
+      <span *ngIf="sortColumn === 'dealerId'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th (click)="sort('dealerName')">
+      Name
+      <span *ngIf="sortColumn === 'dealerName'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th (click)="sort('city')">
+      City
+      <span *ngIf="sortColumn === 'city'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th (click)="sort('state')">
+      State
+      <span *ngIf="sortColumn === 'state'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th (click)="sort('zipCode')">
+      Zip
+      <span *ngIf="sortColumn === 'zipCode'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th (click)="sort('storageCapacity')">
+      Capacity
+      <span *ngIf="sortColumn === 'storageCapacity'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th (click)="sort('inventory')">
+      Inventory
+      <span *ngIf="sortColumn === 'inventory'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th>Actions</th>
+  </tr>
+  </thead>
     <tbody>
-      <tr *ngFor="let dealer of dealers">
+      <tr *ngFor="let dealer of filteredDealers">
         <td>{{ dealer.dealerId }}</td>
         <td>{{ dealer.dealerName }}</td>
         <td>{{ dealer.city }}</td>

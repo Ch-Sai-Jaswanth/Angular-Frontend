@@ -58,6 +58,38 @@ export class BikeList implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  searchTerm = '';
+  sortColumn: keyof BikeStore | null = null;
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  get filteredBikes(): BikeStore[] {
+    let filtered = this.bikes.filter(bike =>
+      bike.modelName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      bike.manufacturer?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      bike.modelYear?.toString().includes(this.searchTerm) ||
+      bike.engineCc?.toString().includes(this.searchTerm)
+    );
+
+    if (this.sortColumn) {
+      filtered = filtered.sort((a, b) => {
+        const valA = a[this.sortColumn!] ?? '';
+        const valB = b[this.sortColumn!] ?? '';
+        return this.sortDirection === 'asc'
+          ? valA > valB ? 1 : -1
+          : valA < valB ? 1 : -1;
+      });
+    }
+    return filtered;
+  }
+
+  sort(column: keyof BikeStore): void {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+  }
 }
 
 // import { Component, OnInit } from '@angular/core';

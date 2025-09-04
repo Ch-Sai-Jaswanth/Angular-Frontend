@@ -3,10 +3,11 @@ import { DealerMasterService } from '../../services/dealermaster-service';
 import { DealerMaster } from '../../models/dealer-master';
 import { CommonModule, DatePipe, Location } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dealermaster-list',
-  imports: [DatePipe, CommonModule, RouterLink],
+  imports: [DatePipe, CommonModule, RouterLink, FormsModule],
   templateUrl: './dealermaster-list.html',
   styleUrls: ['./dealermaster-list.css']
 })
@@ -48,5 +49,39 @@ export class DealerMasterList implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  searchTerm = '';
+  sortColumn: keyof DealerMaster | null = null;
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  get filteredDealerMasters(): DealerMaster[] {
+    let filtered = this.dealerMasters.filter(record =>
+      record.dealerId.toString().includes(this.searchTerm.toLowerCase()) ||
+      record.bikeId.toString().includes(this.searchTerm.toLowerCase()) ||
+      record.bikesDelivered?.toString().includes(this.searchTerm.toLowerCase()) ||
+      record.deliveryDate?.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+
+    if (this.sortColumn) {
+      filtered = filtered.sort((a, b) => {
+        const valA = a[this.sortColumn!] ?? '';
+        const valB = b[this.sortColumn!] ?? '';
+        return this.sortDirection === 'asc'
+          ? valA > valB ? 1 : -1
+          : valA < valB ? 1 : -1;
+      });
+    }
+
+    return filtered;
+  }
+
+  sort(column: keyof DealerMaster): void {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
   }
 }

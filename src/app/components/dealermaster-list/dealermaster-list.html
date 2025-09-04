@@ -10,19 +10,53 @@
 
   <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
 
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search delivery records..."
+      [(ngModel)]="searchTerm"
+    />
+  </div>
+
   <table *ngIf="!loading && dealerMasters.length" class="table table-bordered table-hover">
     <thead class="table-dark">
-      <tr>
-        <th>DealerMaster Id</th>
-        <th>Dealer Id</th>
-        <th>Bike Id</th>
-        <th>Bikes Delivered</th>
-        <th>Delivery Date</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+  <tr>
+    <th (click)="sort('dealerMasterId')">
+      DealerMaster Id
+      <span *ngIf="sortColumn === 'dealerMasterId'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th (click)="sort('dealerId')">
+      Dealer Id
+      <span *ngIf="sortColumn === 'dealerId'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th (click)="sort('bikeId')">
+      Bike Id
+      <span *ngIf="sortColumn === 'bikeId'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th (click)="sort('bikesDelivered')">
+      Bikes Delivered
+      <span *ngIf="sortColumn === 'bikesDelivered'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th (click)="sort('deliveryDate')">
+      Delivery Date
+      <span *ngIf="sortColumn === 'deliveryDate'">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </span>
+    </th>
+    <th>Actions</th>
+  </tr>
+  </thead>
     <tbody>
-      <tr *ngFor="let record of dealerMasters">
+      <tr *ngFor="let record of filteredDealerMasters">
         <td>{{ record.dealerMasterId }}</td>
         <td>{{ record.dealerId }}</td>
         <td>{{ record.bikeId }}</td>
