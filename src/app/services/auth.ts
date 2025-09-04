@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private baseUrl = 'https://localhost:7188/api/Account'; // Adjust if needed
+  private baseUrl = 'https://localhost:7188/api/Account';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -20,6 +20,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('name');
     this.router.navigate(['/login']);
   }
 }
