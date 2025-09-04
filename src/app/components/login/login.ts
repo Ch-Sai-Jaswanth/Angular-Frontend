@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { AuthService } from '../../services/auth';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { User } from '../../services/user';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class Login {
   loginForm: FormGroup;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private userService: User) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -27,6 +28,7 @@ export class Login {
         next: (res: any) => {
           localStorage.setItem('token', res.token);
           localStorage.setItem('role', res.role);
+          this.userService.setUsername(res.username || this.loginForm.value.username);
           this.router.navigate(['/home']);
         },
         error: err => {
