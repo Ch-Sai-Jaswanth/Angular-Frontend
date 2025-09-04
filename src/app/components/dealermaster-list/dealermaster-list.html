@@ -63,6 +63,9 @@
         <td>{{ record.bikesDelivered }}</td>
         <td>{{ record.deliveryDate | date: 'mediumDate' }}</td>
         <td>
+          <button class="btn btn-info btn-sm" [routerLink]="['/deliveries/details', record.dealerMasterId]">
+            Details
+          </button>
           <button id="deleteBtn" class="btn btn-danger btn-sm" (click)="deleteRecord(record.dealerMasterId)">
             Delete
           </button>

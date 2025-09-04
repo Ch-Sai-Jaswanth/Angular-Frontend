@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4 text-primary fw-bold">Delivery Details</h2>
+
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger text-center shadow-sm">
+    {{ error }}
+  </div>
+
+  <div *ngIf="delivery" class="card shadow-lg border-0 rounded-4">
+    <div class="card-header bg-primary text-white text-center fw-bold fs-5">
+      Delivery Summary
+    </div>
+
+    <div class="card-body p-4">
+      <p class="mb-3"><strong>🏬 DealerMaster ID: </strong> <span class="text-muted">{{ delivery?.dealerMasterId }}</span></p>
+      <p class="mb-3"><strong>🆔 Dealer ID: </strong> <span class="text-muted">{{ delivery?.dealerId }}</span></p>
+      <p class="mb-3"><strong>🏍️ Bike ID: </strong> <span class="text-muted">{{ delivery?.bikeId }}</span></p>
+      
+      <div class="row text-center my-3">
+        <div class="col-md-6 mb-3">
+          <div class="border rounded-3 p-3 bg-light shadow-sm">
+            <strong>📦 Bikes Delivered:</strong>
+            <div class="text-success fw-bold fs-5">{{ delivery?.bikesDelivered }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="border rounded-3 p-3 bg-light shadow-sm">
+            <strong>📅 Delivery Date:</strong>
+            <div class="text-primary fw-bold fs-5">{{ delivery?.deliveryDate }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer bg-white text-center">
+      <button class="btn btn-outline-danger px-4 py-2 fw-bold" (click)="goBack()">
+        ← Back
+      </button>
+    </div>
+  </div>
+</div>

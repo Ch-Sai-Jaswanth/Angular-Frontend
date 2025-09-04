@@ -12,6 +12,9 @@ import { DealerMasterList } from './components/dealermaster-list/dealermaster-li
 import { EditDealer } from './components/edit-dealer/edit-dealer';
 import { EditBike } from './components/edit-bike/edit-bike';
 import { EditDealermaster } from './components/edit-dealermaster/edit-dealermaster';
+import { BikeDetails } from './components/bike-details/bike-details';
+import { DealerDetails } from './components/dealer-details/dealer-details';
+import { DealermasterDetails } from './components/dealermaster-details/dealermaster-details';
 
 export const routes: Routes = [
     {
@@ -35,6 +38,11 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'bikes/details/:id',
+        component: BikeDetails,
+        canActivate: [authGuard]
+    },
+    {
         path: 'dealers',
         component: DealerList,
         canActivate: [authGuard]
@@ -50,6 +58,11 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'dealers/details/:id',
+        component: DealerDetails,
+        canActivate: [authGuard]
+    },
+    {
         path: 'deliveries',
         component: DealerMasterList,
         canActivate: [authGuard]
@@ -62,6 +75,11 @@ export const routes: Routes = [
     {
         path: 'deliveries/edit/:id',
         component: EditDealermaster,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'deliveries/details/:id',
+        component: DealermasterDetails,
         canActivate: [authGuard]
     },
     { path: 'login', component: Login },

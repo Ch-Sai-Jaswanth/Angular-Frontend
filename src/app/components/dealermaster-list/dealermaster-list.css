@@ -35,7 +35,7 @@ th {
 }
 
 button#deleteBtn {
-  margin-right: 0.5rem;
+  margin-inline: 0.5rem;
   background-color: #d9534f;
   color: white;
   border: none;

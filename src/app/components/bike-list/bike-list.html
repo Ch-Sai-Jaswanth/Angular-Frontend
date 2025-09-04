@@ -58,6 +58,9 @@
         <td>{{ bike.modelYear || 'N/A' }}</td>
         <td>{{ bike.engineCc || 'N/A' }}</td>
         <td>
+          <button class="btn btn-info btn-sm" [routerLink]="['/bikes/details', bike.bikeId]">
+            Details
+          </button>
           <button id="deleteBtn" class="btn btn-danger btn-sm" (click)="deleteBike(bike.bikeId)">
             Delete
           </button>

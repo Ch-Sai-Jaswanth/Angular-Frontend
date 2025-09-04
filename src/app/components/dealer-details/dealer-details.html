@@ -1,0 +1,51 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4 text-primary fw-bold">Dealer Details</h2>
+
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger text-center shadow-sm">
+    {{ error }}
+  </div>
+
+  <div *ngIf="dealer" class="card shadow-lg border-0 rounded-4">
+    <div class="card-header bg-primary text-white text-center fw-bold fs-5">
+      {{ dealer?.dealerName }}
+    </div>
+    <div class="card-body p-4">
+  <p class="mb-3"><strong>🆔 Dealer ID: </strong> <span class="text-muted">{{ dealer?.dealerId }}</span></p>
+  <p class="mb-3"><strong>🏬 Dealer Name: </strong> <span class="text-muted">{{ dealer?.dealerName }}</span></p>
+  <p class="mb-3"><strong>📍 Address: </strong> 
+    <span class="text-muted">
+      {{ dealer?.address }}, {{ dealer?.city }}, {{ dealer?.state }} - {{ dealer?.zipCode }}
+    </span>
+  </p>
+  
+  <hr class="my-3">
+
+  <div class="row text-center">
+    <div class="col-md-6 mb-3">
+      <div class="border rounded-3 p-3 bg-light shadow-sm">
+        <strong>📦 Storage Capacity:</strong>
+        <div class="text-primary fw-bold">{{ dealer?.storageCapacity }}</div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="border rounded-3 p-3 bg-light shadow-sm">
+        <strong>🛒 Inventory:</strong>
+        <div class="text-success fw-bold">{{ dealer?.inventory || 0 }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="card-footer bg-light text-center">
+      <button class="btn btn-outline-danger px-4 py-2 fw-bold" (click)="goBack()">
+        ← Go Back
+      </button>
+    </div>
+  </div>
+</div>
