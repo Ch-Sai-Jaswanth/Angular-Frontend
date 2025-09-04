@@ -8,6 +8,7 @@ import { Dashboard } from '../dashboard/dashboard';
 import { DealerList } from '../dealer-list/dealer-list';
 import { BikeList } from '../bike-list/bike-list';
 import { DealerMasterList } from '../dealermaster-list/dealermaster-list';
+import { User } from '../../services/user';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,15 @@ import { DealerMasterList } from '../dealermaster-list/dealermaster-list';
   styleUrl: './navbar.css'
 })
 export class Navbar {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private userService: User) {}
+
+  username: string | null = '';
+
+  ngOnInit() {
+    this.userService.username$.subscribe(name => {
+      this.username = name;
+    });
+  }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');

@@ -33,9 +33,22 @@
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
             {{ getRole() }} <!-- ▼ -->
           </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+          <ul class="dropdown-menu dropdown-menu-end shadow-lg rounded-3 p-2" style="min-width: 220px;">
+            <li class="px-3 py-2 fw-semibold text-primary border-bottom">
+              Welcome, <span class="text-dark">{{ username }}</span>!
+            </li>
+            <li>
+              <a class="dropdown-item text-danger fw-semibold d-flex align-items-center gap-2" (click)="logout()">
+                <i class="bi bi-box-arrow-right"></i> Logout
+              </a>
+            </li>
           </ul>
+          <!-- <ul class="dropdown-menu dropdown-menu-end">
+            <li class="px-3 py-2 fw-semibold text-primary border-bottom">
+              Welcome, <span class="text-dark">{{ username }}</span>!
+            </li>
+            <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+          </ul> -->
         </li>
       </ul>
     </div>
