@@ -10,7 +10,7 @@ type Role = 'Admin' | 'Producer' | 'Dealer' | 'User';
 })
 
 export class Dashboard {
-  constructor(private router: Router) {}
+  role: Role = 'User';
 
   private accessMap: Record<Role, string[]> = {
     Admin: ['dealers', 'bikes', 'deliveries'],
@@ -19,19 +19,27 @@ export class Dashboard {
     User: []
   };
 
-  navigateTo(module: string): void {
-    const role = this.getUserRole();
+  constructor(private router: Router) {}
 
-    if (this.accessMap[role]?.includes(module)) {
-      this.router.navigate([`/${module}/new`]);
-    } else {
-      alert('You are not authorized to add them.');
-    }
+  ngOnInit(): void {
+    this.role = this.getUserRole();
   }
 
   getUserRole(): Role {
     const role = localStorage.getItem('role') as Role;
     const validRoles: Role[] = ['Admin', 'Producer', 'Dealer', 'User'];
     return validRoles.includes(role) ? role : 'User';
+  }
+
+  canAccess(module: string): boolean {
+    return this.accessMap[this.role]?.includes(module);
+  }
+
+  navigateTo(module: string): void {
+    if (this.canAccess(module)) {
+      this.router.navigate([`/${module}/new`]);
+    } else {
+      alert('You are not authorized to add them.');
+    }
   }
 }

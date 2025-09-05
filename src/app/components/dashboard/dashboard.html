@@ -1,4 +1,94 @@
-<div class="container mt-4">
+<div class="container mt-5">
+  <h2 class="fw-bold text-center mb-3 text-primary">🚴 Welcome to Bike Dealer Management System</h2>
+  <p class="lead text-center text-muted">Use the navigation below to manage dealers, bikes, and deliveries efficiently.</p>
+
+  <div class="row mt-4 text-center">
+    <div class="col-md-4">
+      <div class="card shadow-lg border-0 text-white bg-gradient bg-primary mb-4 rounded-4">
+        <div class="card-body">
+          <h5 class="card-title mb-3 fw-bold">Manage Dealers</h5>
+          <button class="btn btn-light fw-semibold px-4" (click)="navigateTo('dealers')">Add New</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-lg border-0 text-white bg-gradient bg-success mb-4 rounded-4">
+        <div class="card-body">
+          <h5 class="card-title mb-3 fw-bold">Manage Bikes</h5>
+          <button class="btn btn-light fw-semibold px-4" (click)="navigateTo('bikes')">Add New</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-lg border-0 text-white bg-gradient bg-info mb-4 rounded-4">
+        <div class="card-body">
+          <h5 class="card-title mb-3 fw-bold">Deliveries</h5>
+          <button class="btn btn-light fw-semibold px-4" (click)="navigateTo('deliveries')">Add New</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5 g-4">
+  <div class="col-md-4">
+    <div class="border rounded-4 p-4 shadow-sm bg-light h-100 hover-shadow">
+      <h5 class="text-primary fw-bold">📦 Inventory & Delivery Tracking</h5>
+      <p class="text-muted mt-2">
+        Monitor bike stock levels, delivery schedules, and fulfillment status across all dealers in real-time.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="border rounded-4 p-4 shadow-sm bg-light h-100 hover-shadow">
+      <h5 class="text-success fw-bold">🧑‍💼 Dealer Performance Insights</h5>
+      <p class="text-muted mt-2">
+        Analyze dealer activity, sales trends, and engagement metrics to optimize your distribution network.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="border rounded-4 p-4 shadow-sm bg-light h-100 hover-shadow">
+      <h5 class="text-info fw-bold">📊 Smart Analytics Dashboard</h5>
+      <p class="text-muted mt-2">
+        Get actionable insights on bike movement, order volumes, and delivery efficiency with intuitive charts.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="border rounded-4 p-4 shadow-sm bg-light h-100 hover-shadow">
+      <h5 class="text-warning fw-bold">🔐 Secure Role-Based Access</h5>
+      <p class="text-muted mt-2">
+        Ensure data integrity and control access with JWT-based authentication and role-specific permissions.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="border rounded-4 p-4 shadow-sm bg-light h-100 hover-shadow">
+      <h5 class="text-danger fw-bold">🛠️ Seamless CRUD Operations</h5>
+      <p class="text-muted mt-2">
+        Add, edit, and manage bikes, dealers, and deliveries with intuitive forms and error-free navigation.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="border rounded-4 p-4 shadow-sm bg-light h-100 hover-shadow">
+      <h5 class="text-secondary fw-bold">🎨 Polished UI Experience</h5>
+      <p class="text-muted mt-2">
+        Enjoy a clean, responsive interface with Bootstrap styling and smooth transitions across modules.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="container mt-4">
   <h2>Welcome to Bike Dealer Management System</h2>
   <p class="lead">Use the navigation bar to manage dealers, bikes, and deliveries.</p>
 
@@ -31,34 +121,58 @@
     </div>
   </div>
 </div>
-<!-- <div class="container mt-4">
-  <h2>Welcome to Bike Dealer Management System</h2>
-  <p class="lead">Use the navigation bar to manage dealers, bikes, and deliveries.</p>
+<div class="row mt-5">
+  <div class="col-md-4 mb-4">
+    <div class="border rounded-4 p-3 shadow-sm bg-light h-100">
+      <h5 class="text-primary fw-bold">📦 Inventory & Delivery Tracking</h5>
+      <p class="text-muted">
+        Monitor bike stock levels, delivery schedules, and fulfillment status across all dealers in real-time.
+      </p>
+    </div>
+  </div>
 
-  <div class="row mt-4">
-    <div class="col-md-4">
-      <div class="card text-white bg-primary mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Manage Dealers</h5>
-          <a routerLink="/dealers/new" class="btn btn-light">Go</a>
-        </div>
-      </div>
+  <div class="col-md-4 mb-4">
+    <div class="border rounded-4 p-3 shadow-sm bg-light h-100">
+      <h5 class="text-success fw-bold">🧑‍💼 Dealer Performance Insights</h5>
+      <p class="text-muted">
+        Analyze dealer activity, sales trends, and engagement metrics to optimize your distribution network.
+      </p>
     </div>
-    <div class="col-md-4">
-      <div class="card text-white bg-success mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Manage Bikes</h5>
-          <a routerLink="/bikes/new" class="btn btn-light">Go</a>
-        </div>
-      </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="border rounded-4 p-3 shadow-sm bg-light h-100">
+      <h5 class="text-info fw-bold">📊 Smart Analytics Dashboard</h5>
+      <p class="text-muted">
+        Get actionable insights on bike movement, order volumes, and delivery efficiency with intuitive charts.
+      </p>
     </div>
-    <div class="col-md-4">
-      <div class="card text-white bg-info mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Deliveries</h5>
-          <a routerLink="/deliveries/new" class="btn btn-light">Go</a>
-        </div>
-      </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="border rounded-4 p-3 shadow-sm bg-light h-100">
+      <h5 class="text-warning fw-bold">🔐 Secure Role-Based Access</h5>
+      <p class="text-muted">
+        Ensure data integrity and control access with JWT-based authentication and role-specific permissions.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="border rounded-4 p-3 shadow-sm bg-light h-100">
+      <h5 class="text-danger fw-bold">🛠️ Seamless CRUD Operations</h5>
+      <p class="text-muted">
+        Add, edit, and manage bikes, dealers, and deliveries with intuitive forms and error-free navigation.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="border rounded-4 p-3 shadow-sm bg-light h-100">
+      <h5 class="text-secondary fw-bold">🎨 Polished UI Experience</h5>
+      <p class="text-muted">
+        Enjoy a clean, responsive interface with Bootstrap styling and smooth transitions across modules.
+      </p>
     </div>
   </div>
 </div> -->
