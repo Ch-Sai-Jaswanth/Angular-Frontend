@@ -13,6 +13,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./bike-list.css']
 })
 export class BikeList implements OnInit {
+  role: 'admin' | 'producer' | 'dealer' | 'user' = 'user';
+
+
+getUserRole(): 'admin' | 'producer' | 'dealer' | 'user' {
+  const role = localStorage.getItem('role')?.toLowerCase();
+  const validRoles = ['admin', 'producer', 'dealer', 'user'];
+  return validRoles.includes(role!) ? (role as any) : 'user';
+}
+
   bikes: BikeStore[] = [];
   loading = true;
   error = '';
@@ -20,6 +29,7 @@ export class BikeList implements OnInit {
   constructor(private bikeService: BikeStoreService, private location: Location) {}
 
   ngOnInit(): void {
+    this.role = this.getUserRole();
     this.fetchBikes();
   }
 
@@ -53,6 +63,14 @@ export class BikeList implements OnInit {
         }
       });
     }
+  }
+
+  canEdit(): boolean {
+    return this.role === 'admin' || this.role === 'producer';
+  }
+
+  canDelete(): boolean {
+    return this.role === 'admin';
   }
 
   goBack(): void {

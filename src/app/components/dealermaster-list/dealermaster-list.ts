@@ -16,9 +16,18 @@ export class DealerMasterList implements OnInit {
   loading = true;
   error = '';
 
+  role: 'admin' | 'producer' | 'dealer' | 'user' = 'user';
+
+  getUserRole(): 'admin' | 'producer' | 'dealer' | 'user' {
+    const role = localStorage.getItem('role')?.toLowerCase();
+    const validRoles = ['admin', 'producer', 'dealer', 'user'];
+    return validRoles.includes(role!) ? (role as any) : 'user';
+  }
+
   constructor(private dealerMasterService: DealerMasterService, private location: Location) {}
 
   ngOnInit(): void {
+    this.role = this.getUserRole();
     this.fetchDealerMasters();
   }
 
@@ -83,5 +92,13 @@ export class DealerMasterList implements OnInit {
       this.sortColumn = column;
       this.sortDirection = 'asc';
     }
+  }
+
+  canEdit(): boolean {
+    return this.role === 'admin';
+  }
+
+  canDelete(): boolean {
+    return this.role === 'admin';
   }
 }

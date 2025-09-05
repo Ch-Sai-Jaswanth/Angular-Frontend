@@ -13,6 +13,13 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./dealer-list.css']
 })
 export class DealerList implements OnInit {
+  role: 'admin' | 'producer' | 'dealer' | 'user' = 'user';
+  getUserRole(): 'admin' | 'producer' | 'dealer' | 'user' {
+    const role = localStorage.getItem('role')?.toLowerCase();
+    const validRoles = ['admin', 'producer', 'dealer', 'user'];
+    return validRoles.includes(role!) ? (role as any) : 'user';
+  }
+
   dealers: Dealer[] = [];
   loading = true;
   error = '';
@@ -20,6 +27,7 @@ export class DealerList implements OnInit {
   constructor(private dealerService: DealerService, private location: Location) {}
 
   ngOnInit(): void {
+    this.role = this.getUserRole();
     this.loadDealers();
   }
 
@@ -84,4 +92,11 @@ export class DealerList implements OnInit {
     }
   }
 
+  canEdit(): boolean {
+    return this.role === 'admin' || this.role === 'dealer';
+  }
+
+  canDelete(): boolean {
+    return this.role === 'admin';
+  }
 }

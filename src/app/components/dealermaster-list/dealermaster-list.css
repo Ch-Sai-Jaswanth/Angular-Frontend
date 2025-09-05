@@ -44,6 +44,10 @@ button#deleteBtn {
   cursor: pointer;
 }
 
+button {
+  margin-right: 0.5rem;
+}
+
 a {
   color: #0078d4;
   text-decoration: none;

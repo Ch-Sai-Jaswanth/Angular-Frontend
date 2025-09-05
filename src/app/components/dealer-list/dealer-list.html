@@ -77,15 +77,11 @@
         <td>{{ dealer.storageCapacity }}</td>
         <td>{{ dealer.inventory }}</td>
         <td>
-            <button class="btn btn-info btn-sm" [routerLink]="['/dealers/details', dealer.dealerId]">
-              Details
-            </button>
-            <button id="deleteBtn" class="btn btn-danger btn-sm" (click)="deleteDealer(dealer.dealerId)">
-              Delete
-            </button>
-            <a class="btn btn-primary btn-sm" [routerLink]="['/dealers/edit', dealer.dealerId]">
-              Edit
-            </a>
+          <button class="btn btn-info btn-sm" [routerLink]="['/dealers/details', dealer.dealerId]">
+            Details
+          </button>
+          <button *ngIf="canDelete()" class="btn btn-danger btn-sm" (click)="deleteDealer(dealer.dealerId)">Delete</button>
+          <a *ngIf="canEdit()" class="btn btn-primary btn-sm" [routerLink]="['/dealers/edit', dealer.dealerId]">Edit</a>
         </td>
       </tr>
     </tbody>
