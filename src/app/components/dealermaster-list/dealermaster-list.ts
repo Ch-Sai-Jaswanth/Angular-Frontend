@@ -15,20 +15,26 @@ export class DealerMasterList implements OnInit {
   dealerMasters: DealerMaster[] = [];
   loading = true;
   error = '';
+  constructor(private dealerMasterService: DealerMasterService, private location: Location) {}
 
   role: 'admin' | 'producer' | 'dealer' | 'user' = 'user';
+
+  currentPage = 1;
+  recordsPerPage = 10;
+  pageSizes = [5, 10, 20, 50];
+  searchTerm = '';
+  sortColumn: keyof DealerMaster | null = null;
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  ngOnInit(): void {
+    this.role = this.getUserRole();
+    this.fetchDealerMasters();
+  }
 
   getUserRole(): 'admin' | 'producer' | 'dealer' | 'user' {
     const role = localStorage.getItem('role')?.toLowerCase();
     const validRoles = ['admin', 'producer', 'dealer', 'user'];
     return validRoles.includes(role!) ? (role as any) : 'user';
-  }
-
-  constructor(private dealerMasterService: DealerMasterService, private location: Location) {}
-
-  ngOnInit(): void {
-    this.role = this.getUserRole();
-    this.fetchDealerMasters();
   }
 
   fetchDealerMasters(): void {
@@ -60,30 +66,52 @@ export class DealerMasterList implements OnInit {
     this.location.back();
   }
 
-  searchTerm = '';
-  sortColumn: keyof DealerMaster | null = null;
-  sortDirection: 'asc' | 'desc' = 'asc';
-
   get filteredDealerMasters(): DealerMaster[] {
-    let filtered = this.dealerMasters.filter(record =>
-      record.dealerId.toString().includes(this.searchTerm.toLowerCase()) ||
-      record.bikeId.toString().includes(this.searchTerm.toLowerCase()) ||
-      record.bikesDelivered?.toString().includes(this.searchTerm.toLowerCase()) ||
-      record.deliveryDate?.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+  let filtered = this.dealerMasters;
 
-    if (this.sortColumn) {
-      filtered = filtered.sort((a, b) => {
-        const valA = a[this.sortColumn!] ?? '';
-        const valB = b[this.sortColumn!] ?? '';
-        return this.sortDirection === 'asc'
-          ? valA > valB ? 1 : -1
-          : valA < valB ? 1 : -1;
-      });
-    }
+  if (this.searchTerm) {
+    const lowerTerm = this.searchTerm.toLowerCase();
+    filtered = filtered.filter(record =>
+      record.dealerId.toString().toLowerCase().includes(lowerTerm) ||
+      record.bikeId.toString().toLowerCase().includes(lowerTerm) ||
+      record.bikesDelivered?.toString().toLowerCase().includes(lowerTerm) ||
+      record.deliveryDate?.toLowerCase().includes(lowerTerm)
+    );
+  }
+
+  if (this.sortColumn) {
+    filtered = [...filtered].sort((a, b) => {
+      const valA = a[this.sortColumn!] ?? '';
+      const valB = b[this.sortColumn!] ?? '';
+      return this.sortDirection === 'asc'
+        ? valA > valB ? 1 : -1
+        : valA < valB ? 1 : -1;
+    });
+  }
 
     return filtered;
   }
+  
+  get paginatedDealerMasters(): DealerMaster[] {
+    const startIndex = (this.currentPage - 1) * this.recordsPerPage;
+    return this.filteredDealerMasters.slice(startIndex, startIndex + this.recordsPerPage);
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.filteredDealerMasters.length / this.recordsPerPage));
+  }
+
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
+
+  changePageSize(size: number): void {
+    this.recordsPerPage = size;
+    this.currentPage = 1;
+  }
+
 
   sort(column: keyof DealerMaster): void {
     if (this.sortColumn === column) {
@@ -102,3 +130,24 @@ export class DealerMasterList implements OnInit {
     return this.role === 'admin';
   }
 }
+
+// get filteredDealerMasters(): DealerMaster[] {
+//     let filtered = this.dealerMasters.filter(record =>
+//       record.dealerId.toString().includes(this.searchTerm.toLowerCase()) ||
+//       record.bikeId.toString().includes(this.searchTerm.toLowerCase()) ||
+//       record.bikesDelivered?.toString().includes(this.searchTerm.toLowerCase()) ||
+//       record.deliveryDate?.toLowerCase().includes(this.searchTerm.toLowerCase())
+//     );
+
+//     if (this.sortColumn) {
+//       filtered = filtered.sort((a, b) => {
+//         const valA = a[this.sortColumn!] ?? '';
+//         const valB = b[this.sortColumn!] ?? '';
+//         return this.sortDirection === 'asc'
+//           ? valA > valB ? 1 : -1
+//           : valA < valB ? 1 : -1;
+//       });
+//     }
+
+//     return filtered;
+//   }

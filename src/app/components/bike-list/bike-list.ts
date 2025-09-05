@@ -15,19 +15,41 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class BikeList implements OnInit {
   role: 'admin' | 'producer' | 'dealer' | 'user' = 'user';
 
+  getUserRole(): 'admin' | 'producer' | 'dealer' | 'user' {
+    const role = localStorage.getItem('role')?.toLowerCase();
+    const validRoles = ['admin', 'producer', 'dealer', 'user'];
+    return validRoles.includes(role!) ? (role as any) : 'user';
+  }
 
-getUserRole(): 'admin' | 'producer' | 'dealer' | 'user' {
-  const role = localStorage.getItem('role')?.toLowerCase();
-  const validRoles = ['admin', 'producer', 'dealer', 'user'];
-  return validRoles.includes(role!) ? (role as any) : 'user';
-}
+  pageSize = 10;
+  pageSizes = [5, 10, 20, 50];
+  currentPage = 1;
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredBikes.length / this.pageSize);
+  }
+
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
+
+  get paginatedBikes(): BikeStore[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredBikes.slice(start, start + this.pageSize);
+  }
+
 
   bikes: BikeStore[] = [];
   loading = true;
   error = '';
 
   constructor(private bikeService: BikeStoreService, private location: Location) {}
-
   ngOnInit(): void {
     this.role = this.getUserRole();
     this.fetchBikes();
@@ -41,6 +63,7 @@ getUserRole(): 'admin' | 'producer' | 'dealer' | 'user' {
       next: data => {
         this.bikes = data;
         this.loading = false;
+        this.updateFilteredBikes(true);
       },
       error: err => {
         console.error('Error loading bikes', err);
@@ -48,6 +71,20 @@ getUserRole(): 'admin' | 'producer' | 'dealer' | 'user' {
         this.loading = false;
       }
     });
+  }
+
+  onSearchChange(): void {
+    this.updateFilteredBikes(true);
+  }
+
+  sort(column: keyof BikeStore): void {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+    this.updateFilteredBikes();
   }
 
   deleteBike(id: number): void {
@@ -80,7 +117,9 @@ getUserRole(): 'admin' | 'producer' | 'dealer' | 'user' {
   sortColumn: keyof BikeStore | null = null;
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  get filteredBikes(): BikeStore[] {
+  filteredBikes: BikeStore[] = [];
+
+  updateFilteredBikes(resetPage = false): void {
     let filtered = this.bikes.filter(bike =>
       bike.modelName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       bike.manufacturer?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
@@ -97,62 +136,83 @@ getUserRole(): 'admin' | 'producer' | 'dealer' | 'user' {
           : valA < valB ? 1 : -1;
       });
     }
-    return filtered;
-  }
 
-  sort(column: keyof BikeStore): void {
-    if (this.sortColumn === column) {
-      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.sortColumn = column;
-      this.sortDirection = 'asc';
+    this.filteredBikes = filtered;
+
+    if (resetPage) {
+      this.changePage(1);
     }
   }
 }
 
-// import { Component, OnInit } from '@angular/core';
-// import { BikeStoreService } from '../../services/bikestore';
-// import { BikeStore } from '../../models/bike-store';
-// import { CommonModule, CurrencyPipe } from '@angular/common';
-// import { RouterLink } from '@angular/router';
-// import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { catchError } from 'rxjs';
+// ngOnInit(): void {
+//   this.role = this.getUserRole();
+//   this.fetchBikes();
+// }
 
-// @Component({
-//   selector: 'app-bike-list',
-//   imports:[CurrencyPipe, RouterLink, ReactiveFormsModule, CommonModule, FormsModule],
-//   templateUrl: './bike-list.html',
-//   styleUrls: ['./bike-list.css']
-// })
-// export class BikeList implements OnInit {
-//   bikes: BikeStore[] = [];
-//   loading = true;
+// fetchBikes(): void {
+//   this.loading = true;
+//   this.error = '';
 
-//   constructor(private bikeService: BikeStoreService) {}
-
-//   ngOnInit(): void {
-//     this.loadBikes();
-//   }
-
-//   loadBikes(): void {
-//     this.bikeService.getAllBikes().subscribe({
-//       next: data => this.bikes = data,
-//       error: err => console.error('Error loading bikes', err)
-//     });
-//     /* this.bikeService.getAllBikes().pipe(catchError((err) => {
-//       console.log(err);
-//       throw err;
-//     })).subscribe((myData) => 
-//     {
-//       this.bikes = myData;
-//     }) */
-//   }
-
-//   deleteBike(id: number): void {
-//     if (confirm('Are you sure you want to delete this bike?')) {
-//       this.bikeService.deleteBike(id).subscribe(() => {
-//         this.bikes = this.bikes.filter(b => b.bikeId !== id);
-//       });
+//   this.bikeService.getAllBikes().subscribe({
+//     next: data => {
+//       this.bikes = data;
+//       this.loading = false;
+//     },
+//     error: err => {
+//       console.error('Error loading bikes', err);
+//       this.error = 'Failed to load bikes.';
+//       this.loading = false;
 //     }
+//   });
+// }
+// updateFilteredBikes(): void {
+//   let filtered = this.bikes.filter(bike =>
+//     bike.modelName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+//     bike.manufacturer?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+//     bike.modelYear?.toString().includes(this.searchTerm) ||
+//     bike.engineCc?.toString().includes(this.searchTerm)
+//   );
+
+//   if (this.sortColumn) {
+//     filtered = filtered.sort((a, b) => {
+//       const valA = a[this.sortColumn!] ?? '';
+//       const valB = b[this.sortColumn!] ?? '';
+//       return this.sortDirection === 'asc'
+//         ? valA > valB ? 1 : -1
+//         : valA < valB ? 1 : -1;
+//     });
+//   }
+
+//   this.filteredBikes = filtered;
+//   this.changePage(1);
+// }
+
+// get filteredBikes(): BikeStore[] {
+//   let filtered = this.bikes.filter(bike =>
+//     bike.modelName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+//     bike.manufacturer?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+//     bike.modelYear?.toString().includes(this.searchTerm) ||
+//     bike.engineCc?.toString().includes(this.searchTerm)
+//   );
+
+//   if (this.sortColumn) {
+//     filtered = filtered.sort((a, b) => {
+//       const valA = a[this.sortColumn!] ?? '';
+//       const valB = b[this.sortColumn!] ?? '';
+//       return this.sortDirection === 'asc'
+//         ? valA > valB ? 1 : -1
+//         : valA < valB ? 1 : -1;
+//     });
+//   }
+//   return filtered;
+// }
+
+// sort(column: keyof BikeStore): void {
+//   if (this.sortColumn === column) {
+//     this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+//   } else {
+//     this.sortColumn = column;
+//     this.sortDirection = 'asc';
 //   }
 // }

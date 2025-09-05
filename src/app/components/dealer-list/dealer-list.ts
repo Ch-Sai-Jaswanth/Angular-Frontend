@@ -44,23 +44,28 @@ export class DealerList implements OnInit {
     })
   }
 
-  deleteDealer(id: number): void {
-    if (confirm('Are you sure you want to delete this dealer?')) {
-      this.dealerService.deleteDealer(id).subscribe(() => {
-        this.dealers = this.dealers.filter(d => d.dealerId !== id);
-      });
-    }
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
   searchTerm = '';
   sortColumn: keyof Dealer | null = null;
   sortDirection: 'asc' | 'desc' = 'asc';
+  pageSize = 10;
+  pageSizes = [5, 10, 20, 50];
+  currentPage = 1;
 
-  get filteredDealers(): Dealer[] {
+  get totalPages(): number {
+    return Math.ceil(this.filteredDealersWithoutPaging.length / this.pageSize);
+  }
+
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
+  
+  get filteredDealersWithoutPaging(): Dealer[] {
     let filtered = this.dealers.filter(dealer =>
       dealer.dealerName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       dealer.city?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
@@ -83,6 +88,23 @@ export class DealerList implements OnInit {
     return filtered;
   }
 
+  get filteredDealers(): Dealer[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredDealersWithoutPaging.slice(start, start + this.pageSize);
+  }
+
+  deleteDealer(id: number): void {
+    if (confirm('Are you sure you want to delete this dealer?')) {
+      this.dealerService.deleteDealer(id).subscribe(() => {
+        this.dealers = this.dealers.filter(d => d.dealerId !== id);
+      });
+    }
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+
   sort(column: keyof Dealer): void {
     if (this.sortColumn === column) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -100,3 +122,26 @@ export class DealerList implements OnInit {
     return this.role === 'admin';
   }
 }
+
+// get filteredDealers(): Dealer[] {
+//     let filtered = this.dealers.filter(dealer =>
+//       dealer.dealerName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+//       dealer.city?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+//       dealer.state?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+//       dealer.zipCode?.toString().includes(this.searchTerm) ||
+//       dealer.storageCapacity?.toString().includes(this.searchTerm) ||
+//       dealer.inventory?.toString().includes(this.searchTerm)
+//     );
+
+//     if (this.sortColumn) {
+//       filtered = filtered.sort((a, b) => {
+//         const valA = a[this.sortColumn!] ?? '';
+//         const valB = b[this.sortColumn!] ?? '';
+//         return this.sortDirection === 'asc'
+//           ? valA > valB ? 1 : -1
+//           : valA < valB ? 1 : -1;
+//       });
+//     }
+
+//     return filtered;
+//   }

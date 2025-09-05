@@ -87,40 +87,31 @@
     </tbody>
   </table>
 
+  <div class="mb-3 d-flex justify-content-between align-items-center" *ngIf="!loading && dealers.length">
+  <div>
+    <label for="pageSize" class="form-label me-2">Records per page:</label>
+    <select id="pageSize" class="form-select d-inline-block w-auto"
+            [(ngModel)]="pageSize" (change)="changePage(1)">
+      <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }}</option>
+    </select>
+  </div>
+
+  <nav *ngIf="totalPages > 1">
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+      </li>
+      <li class="page-item" *ngFor="let page of pages" [class.active]="page === currentPage">
+        <button class="page-link" (click)="changePage(page)">{{ page }}</button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+      </li>
+    </ul>
+  </nav>
+</div>
+
   <div *ngIf="!loading && dealers.length === 0" class="text-center text-muted">
     No dealers found.
   </div>
 </div>
-
-<!-- <div class="dealer-list-container">
-  <h2>Dealer List</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Dealer Id</th>
-        <th>Name</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Zip</th>
-        <th>Capacity</th>
-        <th>Inventory</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let dealer of dealers">
-        <td>{{ dealer.dealerId }}</td>
-        <td>{{ dealer.dealerName }}</td>
-        <td>{{ dealer.city }}</td>
-        <td>{{ dealer.state }}</td>
-        <td>{{ dealer.zipCode }}</td>
-        <td>{{ dealer.storageCapacity }}</td>
-        <td>{{ dealer.inventory }}</td>
-        <td>
-          <button (click)="deleteDealer(dealer.dealerId)">Delete</button>
-          <a [routerLink]="['/api/Dealer', dealer.dealerId]">Edit</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
