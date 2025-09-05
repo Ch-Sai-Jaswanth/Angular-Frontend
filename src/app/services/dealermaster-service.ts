@@ -30,4 +30,12 @@ export class DealerMasterService {
   deleteDealerMaster(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getAllDealers(): Observable<any[]> {
+    return this.http.get<any[]>('https://localhost:7188/api/dealer');
+  }
+
+  getAllBikes(): Observable<any[]> {
+    return this.http.get<any[]>('https://localhost:7188/api/bikestore');
+  }
 }

@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class DeliveryForm implements OnInit {
   deliveryForm!: FormGroup;
+  dealers: any[] = [];
+  bikes: any[] = [];
 
   constructor(private fb: FormBuilder, private deliveryService: DealerMasterService, private location:Location, private router: Router) {}
 
@@ -23,8 +25,21 @@ export class DeliveryForm implements OnInit {
       bikesDelivered: [null],
       deliveryDate: [null]
     });
+    this.loadDealers();
+    this.loadBikes();
   }
 
+  loadDealers(): void {
+    this.deliveryService.getAllDealers().subscribe(data => {
+      this.dealers = data;
+    });
+  }
+
+  loadBikes(): void {
+    this.deliveryService.getAllBikes().subscribe(data => {
+      this.bikes = data;
+    });
+  }
   onSubmit(): void {
     if (this.deliveryForm.valid) {
       const role = localStorage.getItem('role');

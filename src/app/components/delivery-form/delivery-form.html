@@ -1,15 +1,54 @@
 <div class="form-container">
   <h2>Record Delivery</h2>
   <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()">
+    <label>DealerMaster ID</label>
+    <input type="number" formControlName="dealerMasterId" class="form-input" />
+
+    <label>Dealer</label>
+    <select formControlName="dealerId" class="form-select">
+      <option *ngFor="let dealer of dealers" [value]="dealer.dealerId">
+        {{ dealer.dealerName }}
+      </option>
+    </select>
+
+    <label>Bike Model</label>
+    <select formControlName="bikeId" class="form-select">
+      <option *ngFor="let bike of bikes" [value]="bike.bikeId">
+        {{ bike.modelName }}
+      </option>
+    </select>
+
+    <label>Bikes Delivered</label>
+    <input type="number" formControlName="bikesDelivered" class="form-input" />
+
+    <label>Delivery Date</label>
+    <input type="date" formControlName="deliveryDate" class="form-input" />
+
+    <button type="submit" id="submitBtn" class="btn-submit">Submit</button><br><br>
+    <button class="btn-back btn btn-danger" (click)="goBack()">← Go Back</button>
+  </form>
+</div>
+
+<!-- <div class="form-container">
+  <h2>Record Delivery</h2>
+  <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()">
 
     <label>DealerMaster ID</label>
     <input type="number" formControlName="dealerMasterId" />
 
-    <label>Dealer ID</label>
-    <input type="number" formControlName="dealerId" />
+    <label>Dealer</label>
+    <select formControlName="dealerId">
+      <option *ngFor="let dealer of dealers" [value]="dealer.dealerId">
+        {{ dealer.dealerName }}
+      </option>
+    </select>
 
-    <label>Bike ID</label>
-    <input type="number" formControlName="bikeId" />
+    <label>Bike Model</label>
+    <select formControlName="bikeId">
+      <option *ngFor="let bike of bikes" [value]="bike.bikeId">
+        {{ bike.modelName }}
+      </option>
+    </select>
 
     <label>Bikes Delivered</label>
     <input type="number" formControlName="bikesDelivered" />
@@ -22,4 +61,10 @@
       ← Go Back
     </button>
   </form>
-</div>
+</div> -->
+
+<!-- <label>Dealer ID</label>
+    <input type="number" formControlName="dealerId" />
+
+    <label>Bike ID</label>
+    <input type="number" formControlName="bikeId" /> -->
