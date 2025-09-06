@@ -15,6 +15,7 @@ import { EditDealermaster } from './components/edit-dealermaster/edit-dealermast
 import { BikeDetails } from './components/bike-details/bike-details';
 import { DealerDetails } from './components/dealer-details/dealer-details';
 import { DealermasterDetails } from './components/dealermaster-details/dealermaster-details';
+import { guestGuard } from './guards/guest-guard';
 
 export const routes: Routes = [
     {
@@ -82,7 +83,7 @@ export const routes: Routes = [
         component: DealermasterDetails,
         canActivate: [authGuard]
     },
-    { path: 'login', component: Login },
-    { path: 'register', component: Registration },
+    { path: 'login', component: Login, canActivate: [guestGuard] },
+    { path: 'register', component: Registration, canActivate: [guestGuard] },
     { path: '**', redirectTo: 'dashboard' }
 ];
