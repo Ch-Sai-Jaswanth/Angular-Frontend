@@ -23,6 +23,16 @@ export class Login {
     });
   }
 
+  showPassword = false;
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  newUser() {
+    this.router.navigate(['/register']);
+  }
+
   onSubmit() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({

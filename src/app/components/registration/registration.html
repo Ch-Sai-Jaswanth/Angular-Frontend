@@ -1,20 +1,4 @@
-<!-- <div class="form-container">
-  <h2>Register</h2>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <input formControlName="username" placeholder="Username" />
-    <input formControlName="email" placeholder="Email" type="email" />
-    <input formControlName="password" placeholder="Password" type="password" />
-    <select formControlName="role">
-      <option value="Admin">Admin</option>
-      <option value="Dealer">Dealer</option>
-      <option value="User">User</option>
-    </select>
-    <button type="submit">Register</button>
-  </form>
-  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
-  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
-</div> -->
-<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+<!-- <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
   <div class="card shadow-lg p-4 rounded-4" style="max-width: 450px; width: 100%;">
     <h2 class="text-center mb-4 text-primary">Register</h2>
 
@@ -42,19 +26,26 @@
 
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input
-          id="password"
-          formControlName="password"
-          type="password"
-          class="form-control"
-          placeholder="Enter your password"
-        />
+        <div class="input-group">
+          <input
+            id="password"
+            formControlName="password"
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control"
+            placeholder="Enter your password"
+          />
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+            {{ showPassword ? 'Hide' : 'Show' }}
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="fillGeneratedPassword()">
+            Generate
+          </button>
+        </div>
       </div>
 
       <div class="mb-3">
         <label for="role" class="form-label">Select Role</label>
         <select id="role" formControlName="role" class="form-select">
-          <!-- <option value="Admin">Admin</option> -->
           <option value="Dealer">Dealer</option>
           <option value="Producer">Producer</option>
           <option value="User">User</option>
@@ -73,7 +64,95 @@
       <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
     </div>
   </div>
+</div> -->
+
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-lg p-4 rounded-4" style="max-width: 450px; width: 100%;">
+    <h2 class="text-center mb-4 text-primary">Register</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <div class="mb-3">
+        <label for="username" class="form-label fw-bold">Username</label>
+        <input
+          id="username"
+          formControlName="username"
+          class="form-control"
+          placeholder="Enter your username"
+        />
+        <div class="text-danger small mt-1" *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.invalid">
+          <span *ngIf="registerForm.get('username')?.errors?.['required']">Username is required.</span>
+          <span *ngIf="registerForm.get('username')?.errors?.['minlength']">At least 3 characters required.</span>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label fw-bold">Email</label>
+        <input
+          id="email"
+          formControlName="email"
+          type="email"
+          class="form-control"
+          placeholder="Enter your email"
+        />
+        <div class="text-danger small mt-1" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+          <span *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</span>
+          <span *ngIf="registerForm.get('email')?.errors?.['email']">Enter a valid email address.</span>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label fw-bold">Password</label>
+        <div class="input-group">
+          <input
+            id="password"
+            formControlName="password"
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control"
+            placeholder="Enter your password"
+          />
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+            {{ showPassword ? 'Hide' : 'Show' }}
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="fillGeneratedPassword()">
+            Generate
+          </button>
+        </div>
+        <div class="text-danger small mt-1" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+          <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</span>
+          <span *ngIf="registerForm.get('password')?.errors?.['minlength']">At least 6 characters required.</span>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="role" class="form-label fw-bold">Select Role</label>
+        <select id="role" formControlName="role" class="form-select">
+          <option value="Dealer">Dealer</option>
+          <option value="Producer">Producer</option>
+          <option value="User">User</option>
+        </select>
+        <div class="text-danger small mt-1" *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.invalid">
+          Role is required.
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">Register</button>
+      <p class="text-center mt-3">
+        <span (click)="existingUser()" class="existing-user-link">Already have an account?</span>
+      </p>
+    </form>
+
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+      {{ successMessage }}
+      <button type="button" class="btn-close" (click)="successMessage = ''" aria-label="Close"></button>
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+      {{ errorMessage }}
+      <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
+    </div>
+  </div>
 </div>
+
 
 <!-- <div class="mb-3 position-relative">
   <label for="password" class="form-label">Password</label>

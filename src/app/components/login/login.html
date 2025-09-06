@@ -21,20 +21,36 @@
           class="form-control"
           placeholder="Enter your username"
         />
+        <div class="text-danger small mt-1"
+          *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid">
+          <span *ngIf="loginForm.get('username')?.errors?.['required']">Username is required.</span>
+        </div>
       </div>
 
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input
-          id="password"
-          formControlName="password"
-          type="password"
-          class="form-control"
-          placeholder="Enter your password"
-        />
+        <div class="input-group">
+          <input
+            id="password"
+            formControlName="password"
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control"
+            placeholder="Enter your password"
+          />
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+              {{ showPassword ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+        <div class="text-danger small mt-1"
+          *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+          <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</span>
+        </div>
       </div>
 
-      <button type="submit" class="btn btn-primary w-100">Login</button>
+      <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Login</button>
+      <p class="text-center mt-3">
+        <span (click)="newUser()" class="new-user-link">New user?</span>
+      </p>
     </form>
 
     <p class="text-danger mt-3 text-center" *ngIf="errorMessage">

@@ -18,11 +18,11 @@ export class Registration {
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router:Router) {
     this.registerForm = this.fb.group({
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      role: ['User', Validators.required]
-    });
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    role: ['User', Validators.required]
+  });
   }
 
   showPassword = false;
@@ -59,6 +59,26 @@ export class Registration {
           }
           });
         }
+    }
+    generateStrongPassword(): string {
+      const length = 12;
+      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~';
+      let password = '';
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset[randomIndex];
+      }
+      return password;
+    }
+
+    fillGeneratedPassword() {
+      const generated = this.generateStrongPassword();
+      this.registerForm.get('password')?.setValue(generated);
+      Swal.fire('Generated Password', generated, 'info');
+    }
+
+    existingUser() {
+      this.router.navigate(['/login']);
     }
   }
     // if (this.registerForm.valid) {
