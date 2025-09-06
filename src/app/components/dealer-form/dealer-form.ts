@@ -75,4 +75,40 @@ export class DealerForm implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
+  onFileSelected(event: any): void {
+  const file: File = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      try {
+        const fileContent = e.target.result;
+        const dealers = JSON.parse(fileContent); // must be array
+
+        if (!Array.isArray(dealers)) {
+          Swal.fire('Error', 'Invalid file format. Expected an array of dealers.', 'error');
+          return;
+        }
+
+        const role = localStorage.getItem('role');
+        if (role === 'Admin' || role === 'Dealer') {
+          this.dealerService.addDealersBulk(dealers).subscribe({
+            next: (res) => {
+              Swal.fire('Success!', `${res.inserted} dealers added successfully.`, 'success');
+            },
+            error: (err) => {
+              console.error(err);
+              Swal.fire('Error', 'Failed to upload dealers.', 'error');
+            }
+          });
+        } else {
+          Swal.fire('Oops!', 'You are not allowed to perform this action', 'error');
+        }
+      } catch (error) {
+        Swal.fire('Error', 'Invalid JSON format in file.', 'error');
+      }
+    };
+    reader.readAsText(file);
+  }
+}
 }

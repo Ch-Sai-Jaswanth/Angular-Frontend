@@ -33,4 +33,8 @@ export class DealerService {
   checkDealerExists(id: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.apiUrl}/exists/${id}`);
   }
+
+  addDealersBulk(dealers: any[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/bulk`, dealers);
+  }
 }
