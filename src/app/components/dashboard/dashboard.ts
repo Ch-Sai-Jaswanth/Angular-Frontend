@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import Swal from 'sweetalert2';
 type Role = 'Admin' | 'Producer' | 'Dealer' | 'User';
 
 @Component({
@@ -39,7 +40,7 @@ export class Dashboard {
     if (this.canAccess(module)) {
       this.router.navigate([`/${module}/new`]);
     } else {
-      alert('You are not authorized to add them.');
+        Swal.fire('Oops!', 'You are not authorized!!', 'error');
     }
   }
 }

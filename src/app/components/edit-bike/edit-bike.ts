@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { BikeStoreService } from '../../services/bikestore';
 import { CommonModule, Location } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-bike',
@@ -62,7 +63,7 @@ export class EditBike {
 
     this.bikeService.updateBike(this.bikeId, updatedBike).subscribe({
       next: () => {
-        alert("Bike updated successfully");
+        Swal.fire('Success!', 'Bike updated successfully', 'success');
         this.router.navigate(['/bikes'])
       },
       error: err => console.error('Update failed:', err)

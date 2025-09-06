@@ -4,6 +4,7 @@ import { DealerMaster } from '../../models/dealer-master';
 import { CommonModule, DatePipe, Location } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dealermaster-list',
@@ -51,15 +52,39 @@ export class DealerMasterList implements OnInit {
   }
 
   deleteRecord(id: number): void {
-    if (confirm('Are you sure you want to delete this delivery record?')) {
-      this.dealerMasterService.deleteDealerMaster(id).subscribe({
-        next: () => this.fetchDealerMasters(),
-        error: (err) => {
-        console.error(err);
-        alert('Failed to delete record.');
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this dealer?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.dealerMasterService.deleteDealerMaster(id).subscribe(() => {
+          this.dealerMasters = this.dealerMasters.filter(d => d.dealerMasterId !== id);
+
+          Swal.fire({
+            title: 'Deleted!',
+            text: 'The dealerMaster has been removed.',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+          });
+        });
       }
-      });
-    }
+    });
+    // if (confirm('Are you sure you want to delete this delivery record?')) {
+    //   this.dealerMasterService.deleteDealerMaster(id).subscribe({
+    //     next: () => this.fetchDealerMasters(),
+    //     error: (err) => {
+    //     console.error(err);
+    //     alert('Failed to delete record.');
+    //   }
+    //   });
+    // }
   }
 
   goBack(): void {

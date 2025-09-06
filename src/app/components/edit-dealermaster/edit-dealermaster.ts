@@ -8,6 +8,7 @@ import { DealerService } from '../../services/dealer';
 import { BikeStoreService } from '../../services/bikestore';
 import { BikeStore } from '../../models/bike-store';
 import { Dealer } from '../../models/dealer';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-dealermaster',
@@ -84,7 +85,7 @@ export class EditDealermaster {
 
   onSubmit(): void {
     if (this.dealerMasterForm.invalid) {
-      alert('Please fill out all required fields.');
+      Swal.fire('Oops!', 'Please fill out all required fields', 'error');
       return;
     }
 
@@ -117,12 +118,12 @@ export class EditDealermaster {
 
     this.dealerMasterService.updateDealerMaster(this.dealerMasterId, updated).subscribe({
       next: () => {
-        alert("DealerMaster updated successfully");
+        Swal.fire('Success!', 'DealerMaster updated successfully', 'success');
         this.router.navigate(['/deliveries']);
       },
       error: err => {
         console.error('Update failed:', err);
-        alert('Something went wrong while updating. Please try again.');
+        Swal.fire('Oops!', 'Something went wrong', 'error');
       }
     });
   }

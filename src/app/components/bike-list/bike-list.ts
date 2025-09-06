@@ -4,6 +4,7 @@ import { BikeStore } from '../../models/bike-store';
 import { CommonModule, CurrencyPipe, Location } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-bike-list',
@@ -88,19 +89,56 @@ export class BikeList implements OnInit {
   }
 
   deleteBike(id: number): void {
-    if (confirm('Are you sure you want to delete this bike?')) {
-      this.bikeService.deleteBike(id).subscribe({
-        next: () => {
-          alert('Bike deleted successfully!');
-          this.fetchBikes();
-        },
-        error: (err) => {
-          console.error('Error deleting bike', err);
-          alert('Failed to delete bike.');
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this bike?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.bikeService.deleteBike(id).subscribe({
+          next: () => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: 'Bike deleted successfully',
+              timer: 2000,
+              showConfirmButton: false
+            });
+            this.fetchBikes();
+          },
+          error: (err) => {
+            console.error('Error deleting bike', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Delete Failed',
+              text: 'This bike could not be deleted. Please check for related records or try again later.',
+              confirmButtonText: 'OK'
+            });
+          }
+        });
+      }
+    });
   }
+
+  // deleteBike(id: number): void {
+  //   if (confirm('Are you sure you want to delete this bike?')) {
+  //     this.bikeService.deleteBike(id).subscribe({
+  //       next: () => {
+  //         Swal.fire('Success!', 'Bike deleted successfully', 'success');
+  //         this.fetchBikes();
+  //       },
+  //       error: (err) => {
+  //         console.error('Error deleting bike', err);
+  //         Swal.fire('Oops!', 'Failed to delete bike', 'error');
+  //       }
+  //     });
+  //   }
+  // }
 
   canEdit(): boolean {
     return this.role === 'admin' || this.role === 'producer';

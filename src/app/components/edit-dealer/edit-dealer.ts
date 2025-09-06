@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DealerService } from '../../services/dealer';
 import { Dealer } from '../../models/dealer';
 import { CommonModule, Location } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-dealer',
@@ -64,7 +65,7 @@ export class EditDealer {
 
     this.dealerService.updateDealer(this.dealerId, updatedDealer).subscribe({
       next: () => {
-        alert("Dealer updated successfully");
+        Swal.fire('Success!', 'Dealer updated successfully', 'success');
         this.router.navigate(['/dealers'])
       },
       error: err => console.error('Update failed:', err)

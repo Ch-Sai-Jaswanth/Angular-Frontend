@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { catchError } from 'rxjs';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dealer-list',
@@ -94,11 +95,57 @@ export class DealerList implements OnInit {
   }
 
   deleteDealer(id: number): void {
-    if (confirm('Are you sure you want to delete this dealer?')) {
-      this.dealerService.deleteDealer(id).subscribe(() => {
+    // if (confirm('Are you sure you want to delete this dealer?')) {
+    //   this.dealerService.deleteDealer(id).subscribe(() => {
+    //     this.dealers = this.dealers.filter(d => d.dealerId !== id);
+    //   });
+    // }
+    Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you really want to delete this dealer?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.dealerService.deleteDealer(id).subscribe({
+      next: () => {
         this.dealers = this.dealers.filter(d => d.dealerId !== id);
-      });
+        Swal.fire('Deleted!', 'The dealer has been removed.', 'success');
+      },
+      error: (err) => {
+        if (err.status === 500 && err.error?.includes('REFERENCE constraint')) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Delete Failed',
+            html: `
+              <p>This dealer is linked to one or more <strong>DealerMaster</strong> records.</p>
+              <p>Please remove those associations before deleting the dealer.</p>
+            `,
+            confirmButtonText: 'Got it',
+            confirmButtonColor: '#3085d6'
+          });
+        } else {
+          Swal.fire('Error', 'Something went wrong. Please try again.', 'error');
+        }
+      }
+    });
+      // this.dealerService.deleteDealer(id).subscribe(() => {
+      //   this.dealers = this.dealers.filter(d => d.dealerId !== id);
+
+      //   Swal.fire({
+      //     title: 'Deleted!',
+      //     text: 'The dealer has been removed.',
+      //     icon: 'success',
+      //     timer: 2000,
+      //     showConfirmButton: false
+      //   });
+      // });
     }
+  });
   }
 
   goBack(): void {

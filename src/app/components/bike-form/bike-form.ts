@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import Swal from 'sweetalert2';
 
 export function bikeIdExistsValidator(service: BikeStoreService): AsyncValidatorFn {
   return (control: AbstractControl) => {
@@ -47,14 +48,14 @@ export class BikeForm implements OnInit {
       const role = localStorage.getItem('role');
       if (role === 'Admin' || role === 'Producer') {
         this.bikeService.addBike(this.bikeForm.value).subscribe(() => {
-        alert('Bike added successfully!');
+          Swal.fire('Success!', 'Bike added successfully.', 'success');
         this.bikeForm.reset();
         this.router.navigate(['/bikes']);
       });
       }
       else
     {
-      alert("You are not allowed to perform this action");
+      Swal.fire('Oops!', 'You are not allowed to perform this action', 'error');
       this.bikeForm.reset();
     }
     }

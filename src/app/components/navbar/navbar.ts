@@ -9,6 +9,7 @@ import { DealerList } from '../dealer-list/dealer-list';
 import { BikeList } from '../bike-list/bike-list';
 import { DealerMasterList } from '../dealermaster-list/dealermaster-list';
 import { User } from '../../services/user';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navbar',
@@ -36,6 +37,7 @@ export class Navbar {
   }
 
   logout() {
+    Swal.fire('Success!', 'Logged out successfully', 'success');
     this.authService.logout();
   }
 }

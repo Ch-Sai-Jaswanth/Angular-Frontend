@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import Swal from 'sweetalert2';
 
 export function deliveryIdExistsValidator(service: DealerMasterService): AsyncValidatorFn {
   return (control: AbstractControl) => {
@@ -61,14 +62,14 @@ export class DeliveryForm implements OnInit {
       const role = localStorage.getItem('role');
       if (role === 'Admin') {
       this.deliveryService.addDealerMaster(this.deliveryForm.value).subscribe(() => {
-        alert('Delivery record added!');
+        Swal.fire('Success!', 'Delivery record added successfully', 'success');
         this.deliveryForm.reset();
         this.router.navigate(['/deliveries']);
       });
     }
     else
     {
-      alert("You are not allowed to perform this action");
+      Swal.fire('Oops!', 'You are not allowed to perform this action', 'error');
       this.deliveryForm.reset();
     }
   }

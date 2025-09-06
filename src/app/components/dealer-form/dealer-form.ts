@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AbstractControl, ValidationErrors, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import Swal from 'sweetalert2';
 
 export function dealerIdExistsValidator(service: DealerService): AsyncValidatorFn {
   return (control: AbstractControl) => {
@@ -59,14 +60,14 @@ export class DealerForm implements OnInit {
       const role = localStorage.getItem('role');
       if (role === 'Admin' || role === 'Dealer') {
         this.dealerService.addDealer(this.dealerForm.value).subscribe(() => {
-        alert('Dealer added successfully!');
+        Swal.fire('Success!', 'Dealer added successfully', 'success');
         this.dealerForm.reset();
         this.router.navigate(['/dealers']);
       });
     }
     else
     {
-      alert("You are not allowed to perform this action");
+      Swal.fire('Oops!', 'You are not allowed to perform this action', 'error');
       this.dealerForm.reset();
     }
   }
