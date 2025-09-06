@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registration',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './registration.html',
   styleUrls: ['./registration.css']
 })
@@ -21,7 +21,8 @@ export class Registration {
     username: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    role: ['User', Validators.required]
+    role: ['User', Validators.required],
+    accessCode: ['']
   });
   }
 
@@ -33,32 +34,45 @@ export class Registration {
 
   onSubmit() {
     if (this.registerForm.valid) {
-          this.authService.register(this.registerForm.value).subscribe({
-          next: (res: string) => {
-          console.log("Raw register response:", res);
+      const role = this.registerForm.get('role')?.value;
+      const enteredCode = this.registerForm.get('accessCode')?.value;
 
-          const normalized = res.trim().toLowerCase();
+      const ADMIN_CODE = 'p@$$c0]3';
 
-          if (normalized.includes("created")) {
-            Swal.fire('Success!', res, 'success').then(() => {
-              this.router.navigate(['/login']);
-            });
-            this.successMessage = res;
-            this.errorMessage = '';
-            this.registerForm.reset();
-          } else {
-            Swal.fire('Error', res, 'error');
-            this.errorMessage = res;
-            this.successMessage = '';
-          }
-        },
-          error: err => {
-            console.error("Register error:", err);
-            this.errorMessage = 'Registration failed.';
-            this.successMessage = '';
-          }
+      if (role === 'Admin' && enteredCode !== ADMIN_CODE) {
+        Swal.fire('Error', 'Invalid Access Code for Admin!', 'error');
+        return;
+      }
+
+      if (role === 'Admin') {
+        localStorage.setItem('adminAccessCode', ADMIN_CODE);
+      }
+        this.authService.register(this.registerForm.value).subscribe({
+        next: (res: string) => {
+        console.log("Raw register response:", res);
+
+        const normalized = res.trim().toLowerCase();
+
+        if (normalized.includes("created")) {
+          Swal.fire('Success!', res, 'success').then(() => {
+            this.router.navigate(['/login']);
           });
+          this.successMessage = res;
+          this.errorMessage = '';
+          this.registerForm.reset();
+        } else {
+          Swal.fire('Error', res, 'error');
+          this.errorMessage = res;
+          this.successMessage = '';
         }
+      },
+        error: err => {
+          console.error("Register error:", err);
+          this.errorMessage = 'Registration failed.';
+          this.successMessage = '';
+        }
+        });
+      }
     }
     generateStrongPassword(): string {
       const length = 12;

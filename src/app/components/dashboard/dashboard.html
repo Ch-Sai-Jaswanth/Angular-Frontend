@@ -2,6 +2,10 @@
   <h2 class="fw-bold text-center mb-3 text-primary">🚴 Welcome to Bike Dealer Management System</h2>
   <p class="lead text-center text-muted">Use the navigation below to manage dealers, bikes, and deliveries efficiently.</p>
 
+  <div *ngIf="role === 'Admin'" class="alert alert-warning text-center fw-bold">
+    🔑 Admin Access Code: {{ accessCode }}
+  </div>
+
   <div class="row mt-4 text-center">
     <div class="col-md-4">
       <div class="card shadow-lg border-0 text-white bg-gradient bg-primary mb-4 rounded-4">

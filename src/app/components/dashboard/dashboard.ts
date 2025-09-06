@@ -1,17 +1,29 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import Swal from 'sweetalert2';
 type Role = 'Admin' | 'Producer' | 'Dealer' | 'User';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, FormsModule, CommonModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
 
 export class Dashboard {
   role: Role = 'User';
+  accessCode: string | null = null;
+
+  ngOnInit(): void {
+    this.role = this.getUserRole();
+
+    if (this.role === 'Admin') {
+      this.accessCode = localStorage.getItem('adminAccessCode') || 'p@$$c0]3';
+    }
+  }
+
 
   private accessMap: Record<Role, string[]> = {
     Admin: ['dealers', 'bikes', 'deliveries'],
@@ -21,10 +33,6 @@ export class Dashboard {
   };
 
   constructor(private router: Router) {}
-
-  ngOnInit(): void {
-    this.role = this.getUserRole();
-  }
 
   getUserRole(): Role {
     const role = localStorage.getItem('role') as Role;

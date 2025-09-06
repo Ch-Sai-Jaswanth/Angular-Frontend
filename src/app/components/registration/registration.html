@@ -127,6 +127,7 @@
       <div class="mb-3">
         <label for="role" class="form-label fw-bold">Select Role</label>
         <select id="role" formControlName="role" class="form-select">
+          <option value="Admin">Admin</option>
           <option value="Dealer">Dealer</option>
           <option value="Producer">Producer</option>
           <option value="User">User</option>
@@ -134,6 +135,17 @@
         <div class="text-danger small mt-1" *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.invalid">
           Role is required.
         </div>
+      </div>
+
+      <div class="mb-3" *ngIf="registerForm.get('role')?.value === 'Admin'">
+        <label for="accessCode" class="form-label fw-bold">Access Code</label>
+        <input
+          id="accessCode"
+          formControlName="accessCode"
+          type="text"
+          class="form-control"
+          placeholder="Enter admin access code"
+        />
       </div>
 
       <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">Register</button>
