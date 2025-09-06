@@ -43,6 +43,10 @@ export class BikeStoreService {
   checkBikeExists(id: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.apiUrl}/exists/${id}`);
   }
+
+  addBikesBulk(bikes: BikeStore[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/bulk`, bikes);
+  }
 }
 
 // export class BikeService {

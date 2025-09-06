@@ -63,4 +63,39 @@ export class BikeForm implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  onFileSelected(event: any): void {
+  const file: File = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      try {
+        const fileContent = e.target.result;
+        const bikes = JSON.parse(fileContent);
+
+        if (!Array.isArray(bikes)) {
+          Swal.fire('Error', 'Invalid file format. Expected an array of bikes.', 'error');
+          return;
+        }
+
+        const role = localStorage.getItem('role');
+        if (role === 'Admin' || role === 'Producer') {
+          this.bikeService.addBikesBulk(bikes).subscribe({
+            next: (res) => {
+              Swal.fire('Success!', `${res.inserted} bikes added successfully.`, 'success');
+            },
+            error: (err) => {
+              console.error(err);
+              Swal.fire('Error', 'Failed to upload bikes.', 'error');
+            }
+          });
+        } else {
+          Swal.fire('Oops!', 'You are not allowed to perform this action', 'error');
+        }
+      } catch (error) {
+        Swal.fire('Error', 'Invalid JSON format in file.', 'error');
+      }
+    };
+    reader.readAsText(file);
+  }
+}
 }
