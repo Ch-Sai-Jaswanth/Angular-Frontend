@@ -4,27 +4,65 @@
     
     <label for="dealerId">Dealer Id</label>
     <input id="dealerId" formControlName="dealerId" type="number" />
+    <div *ngIf="dealerForm.get('dealerId')?.touched && dealerForm.get('dealerId')?.invalid" class="error">
+      <small *ngIf="dealerForm.get('dealerId')?.errors?.['required']">Dealer ID is required.</small>
+      <small *ngIf="dealerForm.get('dealerId')?.errors?.['min']">Dealer ID must be positive.</small>
+    </div>
+    <div *ngIf="dealerForm.get('dealerId')?.errors?.['dealerExists'] && dealerForm.get('dealerId')?.touched" class="error">
+      <small>A dealer with this ID already exists.</small>
+    </div>
 
     <label for="dealerName">Dealer Name</label>
     <input id="dealerName" formControlName="dealerName" type="text" />
+    <div *ngIf="dealerForm.get('dealerName')?.touched && dealerForm.get('dealerName')?.invalid" class="error">
+      <small *ngIf="dealerForm.get('dealerName')?.errors?.['required']">Dealer name is required.</small>
+      <small *ngIf="dealerForm.get('dealerName')?.errors?.['minlength']">Must be at least 2 characters.</small>
+    </div>
 
     <label for="address">Address</label>
     <input id="address" formControlName="address" type="text" />
+    <div *ngIf="dealerForm.get('address')?.touched && dealerForm.get('address')?.invalid" class="error">
+      <small *ngIf="dealerForm.get('address')?.errors?.['required']">Address is required.</small>
+      <small *ngIf="dealerForm.get('address')?.errors?.['minlength']">Must be at least 5 characters.</small>
+    </div>
 
     <label for="city">City</label>
     <input id="city" formControlName="city" type="text" />
+    <div *ngIf="dealerForm.get('city')?.touched && dealerForm.get('city')?.invalid" class="error">
+      <small *ngIf="dealerForm.get('city')?.errors?.['required']">City is required.</small>
+      <small *ngIf="dealerForm.get('city')?.errors?.['pattern']">Only letters allowed.</small>
+    </div>
 
     <label for="state">State</label>
     <input id="state" formControlName="state" type="text" />
+    <div *ngIf="dealerForm.get('state')?.touched && dealerForm.get('state')?.invalid" class="error">
+      <small *ngIf="dealerForm.get('state')?.errors?.['required']">State is required.</small>
+      <small *ngIf="dealerForm.get('state')?.errors?.['pattern']">Only letters allowed.</small>
+    </div>
 
     <label for="zipCode">Zip Code</label>
     <input id="zipCode" formControlName="zipCode" type="number" />
+    <div *ngIf="dealerForm.get('zipCode')?.touched && dealerForm.get('zipCode')?.invalid" class="error">
+      <small *ngIf="dealerForm.get('zipCode')?.errors?.['required']">Zip code is required.</small>
+      <small *ngIf="dealerForm.get('zipCode')?.errors?.['pattern']">Must be 5 or 6 digits.</small>
+    </div>
 
     <label for="storageCapacity">Storage Capacity</label>
     <input id="storageCapacity" formControlName="storageCapacity" type="number" />
+    <div *ngIf="dealerForm.get('storageCapacity')?.touched && dealerForm.get('storageCapacity')?.invalid" class="error">
+      <small *ngIf="dealerForm.get('storageCapacity')?.errors?.['required']">Storage capacity is required.</small>
+      <small *ngIf="dealerForm.get('storageCapacity')?.errors?.['min']">Must be at least 1.</small>
+    </div>
 
     <label for="inventory">Inventory</label>
     <input id="inventory" formControlName="inventory" type="number" />
+    <div *ngIf="dealerForm.get('inventory')?.touched && dealerForm.get('inventory')?.invalid" class="error">
+      <small *ngIf="dealerForm.get('inventory')?.errors?.['required']">Inventory is required.</small>
+      <small *ngIf="dealerForm.get('inventory')?.errors?.['min']">Cannot be negative.</small>
+    </div>
+    <div *ngIf="dealerForm.errors?.['outOfCapacity'] && dealerForm.touched" class="error">
+      <small>Inventory exceeds storage capacity. Please adjust the values.</small>
+    </div>
 
     <button type="submit" [disabled]="dealerForm.invalid" id="submitBtn">Submit</button><br><br>
     <button class="btn btn-danger mb-3" (click)="goBack()">

@@ -3,6 +3,28 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DealerService } from '../../services/dealer';
 import { Router } from '@angular/router';
+import { AbstractControl, ValidationErrors, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+export function dealerIdExistsValidator(service: DealerService): AsyncValidatorFn {
+  return (control: AbstractControl) => {
+    return service.checkDealerExists(control.value).pipe(
+      map(exists => (exists ? { dealerExists: true } : null)),
+      catchError(() => of(null))
+    );
+  };
+}
+
+export const inventoryWithinCapacityValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+  const capacity = group.get('storageCapacity')?.value;
+  const inventory = group.get('inventory')?.value;
+
+  if (capacity != null && inventory != null && inventory > capacity) {
+    return { outOfCapacity: true };
+  }
+  return null;
+};
 
 @Component({
   selector: 'app-dealer-form',
@@ -17,15 +39,19 @@ export class DealerForm implements OnInit {
 
   ngOnInit(): void {
     this.dealerForm = this.fb.group({
-      dealerId: ['', Validators.required],
-      dealerName: ['', Validators.required],
-      address: [''],
-      city: [''],
-      state: [''],
-      zipCode: [null],
-      storageCapacity: [0, Validators.required],
-      inventory: [null]
-    });
+      dealerId: [null, {
+      validators: [Validators.required, Validators.min(1)],
+      asyncValidators: [dealerIdExistsValidator(this.dealerService)],
+      updateOn: 'blur'
+    }],
+      dealerName: ['', [Validators.required, Validators.minLength(2)]],
+      address: ['', [Validators.required, Validators.minLength(5)]],
+      city: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      state: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      zipCode: [null, [Validators.required, Validators.pattern(/^\d{5,6}$/)]],
+      storageCapacity: [0, [Validators.required, Validators.min(1)]],
+      inventory: [null, [Validators.required, Validators.min(0)]]
+    }, { validators: inventoryWithinCapacityValidator });
   }
 
   onSubmit(): void {

@@ -29,3 +29,8 @@ button#submitBtn {
   border-radius: 4px;
   cursor: pointer;
 }
+
+.error small {
+  color: red;
+  font-size: 0.85em;
+}

@@ -3,20 +3,44 @@
   <form [formGroup]="bikeForm" (ngSubmit)="onSubmit()">
     <label>Bike ID</label>
     <input type="number" formControlName="bikeId" />
+    <div *ngIf="bikeForm.get('bikeId')?.touched && bikeForm.get('bikeId')?.invalid" class="error">
+      <small *ngIf="bikeForm.get('bikeId')?.errors?.['required']">Bike ID is required.</small>
+      <small *ngIf="bikeForm.get('bikeId')?.errors?.['min']">Bike ID must be a positive number.</small>
+    </div>
+    <div *ngIf="bikeForm.get('bikeId')?.errors?.['bikeExists'] && bikeForm.get('bikeId')?.touched" class="error">
+      <small>A bike with this ID already exists.</small>
+    </div>
 
     <label>Model Name</label>
     <input formControlName="modelName" />
+    <div *ngIf="bikeForm.get('modelName')?.touched && bikeForm.get('modelName')?.invalid" class="error">
+      <small *ngIf="bikeForm.get('modelName')?.errors?.['required']">Model name is required.</small>
+      <small *ngIf="bikeForm.get('modelName')?.errors?.['minlength']">Model name must be at least 2 characters.</small>
+    </div>
 
     <label>Model Year</label>
     <input type="number" formControlName="modelYear" />
+    <div *ngIf="bikeForm.get('modelYear')?.touched && bikeForm.get('modelYear')?.invalid" class="error">
+      <small *ngIf="bikeForm.get('modelYear')?.errors?.['required']">Model year is required.</small>
+      <small *ngIf="bikeForm.get('modelYear')?.errors?.['min']">Year must be after 1990.</small>
+      <small *ngIf="bikeForm.get('modelYear')?.errors?.['max']">Year cannot be in the future.</small>
+    </div>
 
     <label>Engine CC</label>
     <input type="number" formControlName="engineCc" />
+    <div *ngIf="bikeForm.get('engineCc')?.touched && bikeForm.get('engineCc')?.invalid" class="error">
+      <small *ngIf="bikeForm.get('engineCc')?.errors?.['required']">Engine CC is required.</small>
+      <small *ngIf="bikeForm.get('engineCc')?.errors?.['min']">Engine CC must be at least 50.</small>
+    </div>
 
     <label>Manufacturer</label>
     <input formControlName="manufacturer" />
+    <div *ngIf="bikeForm.get('manufacturer')?.touched && bikeForm.get('manufacturer')?.invalid" class="error">
+      <small *ngIf="bikeForm.get('manufacturer')?.errors?.['required']">Manufacturer is required.</small>
+      <small *ngIf="bikeForm.get('manufacturer')?.errors?.['minlength']">Manufacturer name must be at least 2 characters.</small>
+    </div>
 
-    <button type="submit" id="submitBtn" (click)="onSubmit()">Submit</button><br><br>
+    <button type="submit" id="submitBtn" [disabled]="bikeForm.invalid" (click)="onSubmit()">Submit</button><br><br>
     <button class="btn btn-danger mb-3" (click)="goBack()">
       ← Go Back
     </button>

@@ -3,6 +3,18 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { DealerMasterService } from '../../services/dealermaster-service';
 import { CommonModule, Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+export function deliveryIdExistsValidator(service: DealerMasterService): AsyncValidatorFn {
+  return (control: AbstractControl) => {
+    return service.checkDMExists(control.value).pipe(
+      map(exists => (exists ? { deliveryExists: true } : null)),
+      catchError(() => of(null)) // fail silently
+    );
+  };
+}
 
 @Component({
   selector: 'app-delivery-form',
@@ -19,11 +31,15 @@ export class DeliveryForm implements OnInit {
 
   ngOnInit(): void {
     this.deliveryForm = this.fb.group({
-      dealerMasterId: [null, Validators.required],
+      dealerMasterId: [null, {
+        validators: [Validators.required, Validators.min(1)],
+        asyncValidators: [deliveryIdExistsValidator(this.deliveryService)],
+        updateOn: 'blur'
+      }],
       dealerId: [null, Validators.required],
       bikeId: [null, Validators.required],
-      bikesDelivered: [null],
-      deliveryDate: [null]
+      bikesDelivered: [null, [Validators.required, Validators.min(1)]],
+      deliveryDate: [null, [Validators.required]]
     });
     this.loadDealers();
     this.loadBikes();

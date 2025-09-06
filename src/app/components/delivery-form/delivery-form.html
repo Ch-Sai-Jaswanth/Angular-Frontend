@@ -3,28 +3,46 @@
   <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()">
     <label>DealerMaster ID</label>
     <input type="number" formControlName="dealerMasterId" class="form-input" />
+    <div *ngIf="deliveryForm.get('dealerMasterId')?.touched && deliveryForm.get('dealerMasterId')?.invalid" class="error">
+      <small *ngIf="deliveryForm.get('dealerMasterId')?.errors?.['required']">DealerMaster ID is required.</small>
+      <small *ngIf="deliveryForm.get('dealerMasterId')?.errors?.['min']">Must be a positive number.</small>
+    </div>
+    <div *ngIf="deliveryForm.get('dealerMasterId')?.errors?.['deliveryExists'] && deliveryForm.get('dealerMasterId')?.touched" class="error">
+      <small>A delivery record with this ID already exists.</small>
+    </div>
 
     <label>Dealer</label>
     <select formControlName="dealerId" class="form-select">
-      <option *ngFor="let dealer of dealers" [value]="dealer.dealerId">
-        {{ dealer.dealerName }}
-      </option>
+      <option value="">-- Select Dealer --</option>
+      <option *ngFor="let dealer of dealers" [value]="dealer.dealerId">{{ dealer.dealerName }}</option>
     </select>
+    <div *ngIf="deliveryForm.get('dealerId')?.touched && deliveryForm.get('dealerId')?.invalid" class="error">
+      <small>Dealer selection is required.</small>
+    </div>
 
     <label>Bike Model</label>
     <select formControlName="bikeId" class="form-select">
-      <option *ngFor="let bike of bikes" [value]="bike.bikeId">
-        {{ bike.modelName }}
-      </option>
+      <option value="">-- Select Bike --</option>
+      <option *ngFor="let bike of bikes" [value]="bike.bikeId">{{ bike.modelName }}</option>
     </select>
+    <div *ngIf="deliveryForm.get('bikeId')?.touched && deliveryForm.get('bikeId')?.invalid" class="error">
+      <small>Bike selection is required.</small>
+    </div>
 
     <label>Bikes Delivered</label>
     <input type="number" formControlName="bikesDelivered" class="form-input" />
+    <div *ngIf="deliveryForm.get('bikesDelivered')?.touched && deliveryForm.get('bikesDelivered')?.invalid" class="error">
+      <small *ngIf="deliveryForm.get('bikesDelivered')?.errors?.['required']">Number of bikes delivered is required.</small>
+      <small *ngIf="deliveryForm.get('bikesDelivered')?.errors?.['min']">Must be at least 1.</small>
+    </div>
 
     <label>Delivery Date</label>
     <input type="date" formControlName="deliveryDate" class="form-input" />
+    <div *ngIf="deliveryForm.get('deliveryDate')?.touched && deliveryForm.get('deliveryDate')?.invalid" class="error">
+      <small>Delivery date is required.</small>
+    </div>
 
-    <button type="submit" id="submitBtn" class="btn-submit">Submit</button><br><br>
+    <button type="submit" id="submitBtn" [disabled]="deliveryForm.invalid" class="btn-submit">Submit</button><br><br>
     <button class="btn-back btn btn-danger" (click)="goBack()">← Go Back</button>
   </form>
 </div>

@@ -38,4 +38,8 @@ export class DealerMasterService {
   getAllBikes(): Observable<any[]> {
     return this.http.get<any[]>('https://localhost:7188/api/bikestore');
   }
+
+  checkDMExists(id: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/exists/${id}`);
+  }
 }
