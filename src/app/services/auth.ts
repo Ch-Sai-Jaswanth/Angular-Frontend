@@ -23,6 +23,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     localStorage.removeItem('username');
+    localStorage.removeItem('adminAccessCode')
     this.router.navigate(['/login']);
   }
 }
