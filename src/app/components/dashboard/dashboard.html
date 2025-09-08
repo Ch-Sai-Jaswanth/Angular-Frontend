@@ -11,7 +11,7 @@
       <div class="card shadow-lg border-0 text-white bg-gradient bg-primary mb-4 rounded-4">
         <div class="card-body">
           <h5 class="card-title mb-3 fw-bold">Manage Dealers</h5>
-          <button class="btn btn-light fw-semibold px-4" (click)="navigateTo('dealers')">Add New</button>
+          <button class="btn btn-light fw-semibold px-4" (click)="navigateTo('dealers')" [disabled]="!canAccess('dealers')">Add New</button>
         </div>
       </div>
     </div>
@@ -20,7 +20,7 @@
       <div class="card shadow-lg border-0 text-white bg-gradient bg-success mb-4 rounded-4">
         <div class="card-body">
           <h5 class="card-title mb-3 fw-bold">Manage Bikes</h5>
-          <button class="btn btn-light fw-semibold px-4" (click)="navigateTo('bikes')">Add New</button>
+          <button class="btn btn-light fw-semibold px-4" (click)="navigateTo('bikes')" [disabled]="!canAccess('bikes')">Add New</button>
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
       <div class="card shadow-lg border-0 text-white bg-gradient bg-info mb-4 rounded-4">
         <div class="card-body">
           <h5 class="card-title mb-3 fw-bold">Deliveries</h5>
-          <button class="btn btn-light fw-semibold px-4" (click)="navigateTo('deliveries')">Add New</button>
+          <button class="btn btn-light fw-semibold px-4" (click)="navigateTo('deliveries')" [disabled]="!canAccess('deliveries')">Add New</button>
         </div>
       </div>
     </div>
