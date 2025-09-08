@@ -16,6 +16,7 @@ import { BikeDetails } from './components/bike-details/bike-details';
 import { DealerDetails } from './components/dealer-details/dealer-details';
 import { DealermasterDetails } from './components/dealermaster-details/dealermaster-details';
 import { guestGuard } from './guards/guest-guard';
+import { Unauthorized } from './components/unauthorized/unauthorized';
 
 export const routes: Routes = [
     {
@@ -82,6 +83,10 @@ export const routes: Routes = [
         path: 'deliveries/details/:id',
         component: DealermasterDetails,
         canActivate: [authGuard]
+    },
+    {
+        path: 'unauthorized',
+        component: Unauthorized
     },
     { path: 'login', component: Login, canActivate: [guestGuard] },
     { path: 'register', component: Registration, canActivate: [guestGuard] },
