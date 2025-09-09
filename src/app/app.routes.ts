@@ -19,6 +19,7 @@ import { guestGuard } from './guards/guest-guard';
 import { Unauthorized } from './components/unauthorized/unauthorized';
 
 export const routes: Routes = [
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
     {
         path: 'dashboard',
         component: Dashboard,

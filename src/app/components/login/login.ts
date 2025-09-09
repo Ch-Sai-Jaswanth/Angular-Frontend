@@ -52,7 +52,7 @@ export class Login {
         this.router.navigate(['/dashboard']);
       },
       error: err => {
-        this.errorMessage = err.error || 'Login failed.';
+        this.errorMessage = 'Login failed.';
         Swal.fire({
           icon: 'error',
           title: 'Login Failed',

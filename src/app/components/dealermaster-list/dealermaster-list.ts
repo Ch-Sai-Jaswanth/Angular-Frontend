@@ -5,6 +5,8 @@ import { CommonModule, DatePipe, Location } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { BikeStoreService } from '../../services/bikestore';
+import { BikeStore } from '../../models/bike-store';
 
 @Component({
   selector: 'app-dealermaster-list',
@@ -16,7 +18,7 @@ export class DealerMasterList implements OnInit {
   dealerMasters: DealerMaster[] = [];
   loading = true;
   error = '';
-  constructor(private dealerMasterService: DealerMasterService, private location: Location) {}
+  constructor(private dealerMasterService: DealerMasterService, private location: Location, private bikeService: BikeStoreService) {}
 
   role: 'admin' | 'producer' | 'dealer' | 'user' = 'user';
 
@@ -30,6 +32,7 @@ export class DealerMasterList implements OnInit {
   ngOnInit(): void {
     this.role = this.getUserRole();
     this.fetchDealerMasters();
+    this.fetchBikes();
   }
 
   getUserRole(): 'admin' | 'producer' | 'dealer' | 'user' {
@@ -49,6 +52,23 @@ export class DealerMasterList implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  bikes: BikeStore[] = [];
+  bikeMap: { [key: number]: string } = {};
+
+  fetchBikes(): void {
+    this.bikeService.getAllBikes().subscribe({
+      next: data => {
+        this.bikes = data;
+        this.bikeMap = Object.fromEntries(data.map(b => [b.bikeId, b.modelName]));
+      },
+      error: err => console.error('Failed to load bikes', err)
+    });
+  }
+
+  getModelName(bikeId: number): string {
+    return this.bikeMap[bikeId] ?? 'Unknown';
   }
 
   deleteRecord(id: number): void {
@@ -97,8 +117,10 @@ export class DealerMasterList implements OnInit {
   if (this.searchTerm) {
     const lowerTerm = this.searchTerm.toLowerCase();
     filtered = filtered.filter(record =>
+      record.dealerMasterId.toString().toLowerCase().includes(lowerTerm) ||
       record.dealerId.toString().toLowerCase().includes(lowerTerm) ||
-      record.bikeId.toString().toLowerCase().includes(lowerTerm) ||
+      // record.bikeId.toString().toLowerCase().includes(lowerTerm) ||
+      this.getModelName(record.bikeId).toLowerCase().includes(lowerTerm) ||
       record.bikesDelivered?.toString().toLowerCase().includes(lowerTerm) ||
       record.deliveryDate?.toLowerCase().includes(lowerTerm)
     );

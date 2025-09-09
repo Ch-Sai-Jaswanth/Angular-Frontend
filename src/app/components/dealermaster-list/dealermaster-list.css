@@ -65,3 +65,9 @@ th, td {
   width: 3rem;
   height: 3rem;
 }
+
+input {
+  width: 400px;
+  margin-left: auto;
+  border: 2px solid rgb(129, 125, 125);
+}

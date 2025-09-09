@@ -1,9 +1,9 @@
 <div class="container mt-4">
+  
+  <h2 class="text-center mb-4">DealerMaster Records</h2>
   <button class="btn btn-danger mb-3" (click)="goBack()">
     ← Go Back
   </button>
-  <h2 class="text-center mb-4">DealerMaster Records</h2>
-
   <div *ngIf="loading" class="text-center">
     <div class="spinner-border text-primary" role="status"></div>
   </div>
@@ -35,7 +35,7 @@
       </span>
     </th>
     <th (click)="sort('bikeId')">
-      Bike Id
+      Bike Model
       <span *ngIf="sortColumn === 'bikeId'">
         {{ sortDirection === 'asc' ? '↑' : '↓' }}
       </span>
@@ -59,7 +59,7 @@
       <tr *ngFor="let record of paginatedDealerMasters">
         <td>{{ record.dealerMasterId }}</td>
         <td>{{ record.dealerId }}</td>
-        <td>{{ record.bikeId }}</td>
+        <td>{{ getModelName(record.bikeId) }}</td>
         <td>{{ record.bikesDelivered }}</td>
         <td>{{ record.deliveryDate | date: 'mediumDate' }}</td>
         <td>
