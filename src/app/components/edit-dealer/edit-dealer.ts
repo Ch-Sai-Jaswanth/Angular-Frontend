@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DealerService } from '../../services/dealer';
 import { Dealer } from '../../models/dealer';
@@ -40,7 +40,9 @@ export class EditDealer {
       zipCode: [null],
       storageCapacity: [0, [Validators.required, Validators.min(0)]],
       inventory: [0]
-    });
+    }, {
+    validators: [this.inventoryNotExceedCapacity()]
+  });
   }
   loadDealer(): void {
     this.dealerService.getDealerById(this.dealerId).subscribe({
@@ -53,6 +55,18 @@ export class EditDealer {
         this.isLoading = false;
       }
     });
+  }
+
+  inventoryNotExceedCapacity(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const capacity = group.get('storageCapacity')?.value;
+      const inventory = group.get('inventory')?.value;
+
+      if (inventory > capacity) {
+        return { inventoryExceedsCapacity: true };
+      }
+      return null;
+    };
   }
 
   onSubmit(): void {

@@ -31,7 +31,7 @@
         <div class="col-md-6 mb-3">
           <div class="border rounded-3 p-3 bg-light shadow-sm">
             <strong>📅 Delivery Date:</strong>
-            <div class="text-primary fw-bold fs-5">{{ delivery?.deliveryDate }}</div>
+            <div class="text-primary fw-bold fs-5">{{ delivery?.deliveryDate | date: 'longDate' }}</div>
           </div>
         </div>
       </div>

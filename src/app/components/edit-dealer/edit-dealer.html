@@ -42,6 +42,9 @@
         <label for="inventory" class="form-label fw-bold">Inventory</label>
         <input type="number" id="inventory" class="form-control" formControlName="inventory" placeholder="Enter inventory" />
       </div>
+      <div *ngIf="dealerForm.errors?.['inventoryExceedsCapacity'] && dealerForm.touched" class="text-danger fw-bold">
+        Inventory cannot exceed storage capacity.
+      </div>
     </div>
 
     <div class="d-flex justify-content-between mt-3">

@@ -12,11 +12,10 @@
   </div>
 
   <div *ngIf="bike" class="card shadow-lg border-0 rounded-4">
+    <div class="card-header bg-primary text-white text-center fw-bold fs-5">
+      {{ bike?.modelName }}
+    </div>
     <div class="card-body p-4">
-      <h4 class="card-title text-center text-success mb-3">
-        {{ bike?.modelName }}
-      </h4>
-      <hr>
       <p class="mb-2"><strong>🏭 Manufacturer: </strong> <span class="text-muted">{{ bike?.manufacturer }}</span></p>
       <p class="mb-2"><strong>📅 Model Year: </strong> <span class="text-muted">{{ bike?.modelYear }}</span></p>
       <p class="mb-2"><strong>⚙️ Engine CC: </strong> <span class="text-muted">{{ bike?.engineCc }}</span></p>
