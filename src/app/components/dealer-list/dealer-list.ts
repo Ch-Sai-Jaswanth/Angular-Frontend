@@ -68,6 +68,7 @@ export class DealerList implements OnInit {
   
   get filteredDealersWithoutPaging(): Dealer[] {
     let filtered = this.dealers.filter(dealer =>
+      dealer.dealerId.toString().includes(this.searchTerm.toLowerCase()) ||
       dealer.dealerName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       dealer.city?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       dealer.state?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||

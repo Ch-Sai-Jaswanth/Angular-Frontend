@@ -1,9 +1,9 @@
 <div class="container mt-4">
+  
+  <h2 class="text-center mb-4">Dealers List</h2>
   <button class="btn btn-danger mb-3" (click)="goBack()">
     ← Go Back
   </button>
-  <h2 class="text-center mb-4">Dealer List</h2>
-
   <div *ngIf="loading" class="text-center">
     <div class="spinner-border text-primary" role="status"></div>
   </div>
@@ -29,7 +29,7 @@
       </span>
     </th>
     <th (click)="sort('dealerName')">
-      Name
+      Dealer Name
       <span *ngIf="sortColumn === 'dealerName'">
         {{ sortDirection === 'asc' ? '↑' : '↓' }}
       </span>

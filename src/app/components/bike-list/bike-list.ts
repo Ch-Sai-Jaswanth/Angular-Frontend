@@ -159,6 +159,7 @@ export class BikeList implements OnInit {
 
   updateFilteredBikes(resetPage = false): void {
     let filtered = this.bikes.filter(bike =>
+      bike.bikeId.toString().includes(this.searchTerm.toLowerCase()) ||
       bike.modelName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       bike.manufacturer?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       bike.modelYear?.toString().includes(this.searchTerm) ||
