@@ -40,8 +40,8 @@
       <small *ngIf="bikeForm.get('manufacturer')?.errors?.['minlength']">Manufacturer name must be at least 2 characters.</small>
     </div>
 
-    <button type="submit" id="submitBtn" [disabled]="bikeForm.invalid" (click)="onSubmit()">Submit</button><br><br>
-    <button class="btn btn-danger mb-3" (click)="goBack()">
+    <button type="submit" id="submitBtn" [disabled]="bikeForm.invalid" (click)="onSubmit()">Submit</button>&nbsp;&nbsp;
+    <button class="btn btn-danger mb-1" (click)="goBack()">
       ← Go Back
     </button>
   </form>
